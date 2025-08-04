@@ -10,7 +10,6 @@ class CentralObject(object):
 
 
         """Obligatory variables """
-        
 
         if not isinstance(type, str):
             raise TypeError("object type must be one of this str: 'BH', 'TTauri', 'Herbig' ")
