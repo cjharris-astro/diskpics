@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import yso_utils as yso
 
+# This probably would need to be used inside class for disk
 class CentralObject(object):
     """
     Central object to the accretion disk
     """
-    def __init__(self,type,mass,mdot,radius = 0., temp = 0.,
-                 Rdisk =0., magnetosphere = False, flared = False):
+    def __init__(self,type,mass,mdot,radius = 1., temp = 4000., magnetosphere = False, ):
 
 
         """Obligatory variables """
@@ -46,27 +46,18 @@ class CentralObject(object):
         else:
          self.temp = temp
 
-        if not isinstance(float(Rdisk), float):
-            raise ValueError("object accretion rate must be a number ")
-        else:
-            self.Rdisk = Rdisk
+        # NO LONGER NECESARY ADDED "TYPICAL" values as default
+        # if self.type in ['ttauri','herbig'] and (self.radius ==. or self.temp == 4000):
+        #     raise ValueError("Your object type is a T Tauri or Herbig disk, \
+        #                      you need to input a real value for R* and Teff, \
+        #                       default values are 0")
 
-        if self.type in ['ttauri','herbig'] and (self.radius ==0. or self.temp == 0. or self.Rdisk == 0.):
-            raise ValueError("Your object type is a T Tauri or Herbig disk, \
-                             you need to input a real value for R*, Teff and outer radius of the disk,\
-                              default values are 0")
-            
-        "Optional variables"
 
+        """ Optional """    
         if isinstance(magnetosphere, bool):
              print("The variable must be of boolean type True or False.")
         else:
             self.magnetosphere = magnetosphere
-
-        if isinstance(flared, bool):
-             print("The variable must be of boolean type True or False.")
-        else:
-            self.flared = flared
 
         """ All inputs are validated. Now calculate the secundary variables needed for the type of object"""
         if self.type in ['ttauri','herbig']:
@@ -74,12 +65,28 @@ class CentralObject(object):
                 self.Lstar = yso.get_Lstar(self.radius,self.temp)
                 self.Rsub = yso.get_Rsub(self.Lstar,self.Lacc)
 
+        def magnetosphere():
+            "will return magnetospheric radius"
+            return print("Moduled under construction")
 
-def magnetosphere():
-    return print("Moduled under construction")
+class Disk(object):
 
-def flared():
-    return print("Moduled under construction")
+    def __init__(self,Rdisk =0., flared = False):
+        
+        if not isinstance(float(Rdisk), float):
+            raise ValueError("object accretion rate must be a number ")
+        else:
+            self.Rdisk = Rdisk
+
+        "Optional variables"
+        
+        if isinstance(flared, bool):
+             print("The variable must be of boolean type True or False.")
+        else:
+            self.flared = flared
+
+        def flared():
+            return print("Moduled under construction")
 
 def temperature_gradient():
     return print("NOT DONE YET")
