@@ -1,5 +1,5 @@
 import numpy as np
-import constants as c
+import diskpics.constants as c
 
 # def get_ScaleHeight(rads, mbh, mdot, alpha=0.1):
 #     """
@@ -34,17 +34,30 @@ def get_InnermostCircularStableOrbit(mbh, spin=False):
 
 def get_ScaleHeight(rads, mbh, mdot=10**(-8.5), alpha=0.1):
 
-    zi = 3.2e6 * mdot * mbh * (1-np.power(rads,-1/2))
+    rg = c.G * mbh / c.c**2
 
-    zm = 1.2e4 * alpha**(-1/10) * mdot**(1/5) * mbh**(9/10) * rads**(21/20) * (1-np.power(rads,-1/2))**(1/5)
+    Mcrit = 3e-8 * (mbh/c.Msun)
 
-    zo = 6.1e3 * alpha**(-1/10) * mdot**(3/20) * mbh**(9/10) * rads**(9/8) * (1-np.power(rads,-1/2))**(3/20)
+    zi = 3.2e6 * (mdot/Mcrit) * (mbh/c.Msun) * (1-np.power((rads/(3*rg)),-1/2))
 
-    zi_zm_idx = np.argwhere(np.diff(np.sign(zi - zm))).flatten()[-1]
-    zm_zo_idx = np.argwhere(np.diff(np.sign(zm - zo))).flatten()[-1]
+    zm = 1.2e4 * alpha**(-1/10) * (mdot/Mcrit)**(1/5) * (mbh/c.Msun)**(9/10) * (rads/(3*rg))**(21/20) * (1-np.power((rads/(3*rg)),-1/2))**(1/5)
 
-    ztot = np.concatenate((zi[:zi_zm_idx],
-                            zm[zi_zm_idx:zm_zo_idx],
-                             zo[:zm_zo_idx] ))
+    zo = 6.1e3 * alpha**(-1/10) * (mdot/Mcrit)**(3/20) * (mbh/c.Msun)**(9/10) * (rads/(3*rg))**(9/8) * (1-np.power((rads/(3*rg)),-1/2))**(3/20)
+
+    zi_zm_idx = np.argwhere(np.diff(np.sign(zi - zm))).flatten()
+    zm_zo_idx = np.argwhere(np.diff(np.sign(zm - zo))).flatten()
+
+    if len(zi_zm_idx) > 0 and len(zm_zo_idx) > 0:
+
+        ztot = np.concatenate((zi[:zi_zm_idx[-1]],
+                            zm[zi_zm_idx[-1]:zm_zo_idx[-1]],
+                             zo[:zm_zo_idx[-1]] ))
+        
+    elif len(zi_zm_idx) > 0 and len(zm_zo_idx) == 0:
+        ztot = np.concatenate((zi[:zi_zm_idx[-1]],
+                            zm[zi_zm_idx[-1]:]))
     
-    return ztot
+    else:
+        ztot = zi
+        
+    return ztot, zi, zm, zo
