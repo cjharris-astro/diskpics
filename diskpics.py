@@ -71,8 +71,13 @@ class CentralObject(object):
 
 class Disk(object):
 
-    def __init__(self,Rdisk =0., flared = False):
+    def __init__(self,central_object,Rdisk =0., flared = False):
         
+        if isinstance(central_object, CentralObject):
+            raise TypeError("central_object but be a CentralObjecy type")
+        else:  
+            self.central_obj = central_object
+
         if not isinstance(float(Rdisk), float):
             raise ValueError("object accretion rate must be a number ")
         else:
