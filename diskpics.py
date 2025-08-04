@@ -75,6 +75,12 @@ class CentralObject(object):
                 self.Rsub = yso.get_Rsub(self.Lstar,self.Lacc)
 
 
+def magnetosphere():
+    return print("Moduled under construction")
+
+def flared():
+    return print("Moduled under construction")
+
 def temperature_gradient():
     return print("NOT DONE YET")
 
