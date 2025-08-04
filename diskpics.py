@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import yso_utils as yso
 
 class CentralObject(object):
     """
@@ -67,3 +68,21 @@ class CentralObject(object):
         else:
             self.flared = flared
 
+        """ All inputs are validated. Now calculate the secundary variables needed for the type of object"""
+        if self.type in ['ttauri','herbig']:
+                self.Lacc = yso.get_Lacc(self.mass,self.radius,self.mdot)
+                self.Lstar = yso.get_Lstar(self.radius,self.temp)
+                self.Rsub = yso.get_Rsub(self.Lstar,self.Lacc)
+
+
+def magnetosphere():
+    return print("Moduled under construction")
+
+def flared():
+    return print("Moduled under construction")
+
+def temperature_gradient():
+    return print("NOT DONE YET")
+
+def plot_disk():
+    return print("NOT DONE YET")
