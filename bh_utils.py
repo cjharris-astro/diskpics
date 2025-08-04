@@ -42,22 +42,10 @@ def get_ScaleHeight(rads, mbh, mdot=10**(-8.5), alpha=0.1):
 
     zm = 1.2e4 * alpha**(-1/10) * (mdot/Mcrit)**(1/5) * (mbh/c.Msun)**(9/10) * (rads/(3*rg))**(21/20) * (1-np.power((rads/(3*rg)),-1/2))**(1/5)
 
-    zo = 6.1e3 * alpha**(-1/10) * (mdot/Mcrit)**(3/20) * (mbh/c.Msun)**(9/10) * (rads/(3*rg))**(9/8) * (1-np.power((rads/(3*rg)),-1/2))**(3/20)
+    # zo = 6.1e3 * alpha**(-1/10) * (mdot/Mcrit)**(3/20) * (mbh/c.Msun)**(9/10) * (rads/(3*rg))**(9/8) * (1-np.power((rads/(3*rg)),-1/2))**(3/20)
 
     zi_zm_idx = np.argwhere(np.diff(np.sign(zi - zm))).flatten()
-    zm_zo_idx = np.argwhere(np.diff(np.sign(zm - zo))).flatten()
 
-    if len(zi_zm_idx) > 0 and len(zm_zo_idx) > 0:
+    ztot = np.concatenate((zi[:zi_zm_idx[-1]], zm[zi_zm_idx[-1]:]))
 
-        ztot = np.concatenate((zi[:zi_zm_idx[-1]],
-                            zm[zi_zm_idx[-1]:zm_zo_idx[-1]],
-                             zo[:zm_zo_idx[-1]] ))
-        
-    elif len(zi_zm_idx) > 0 and len(zm_zo_idx) == 0:
-        ztot = np.concatenate((zi[:zi_zm_idx[-1]],
-                            zm[zi_zm_idx[-1]:]))
-    
-    else:
-        ztot = zi
-        
-    return ztot, zi, zm, zo
+    return ztot, zi, zm
