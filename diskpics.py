@@ -8,7 +8,7 @@ class CentralObject(object):
     """
     Central object to the accretion disk
     """
-    def __init__(self,type,mass,mdot=1.,radius = 1., temp = 4000., magnetosphere = False, ):
+    def __init__(self,type,mass,mdot=1.,radius = 1., temp = 1., magnetosphere = False, ):
 
         """Obligatory variables """
 
@@ -59,26 +59,25 @@ class CentralObject(object):
         if not isinstance(float(temp), float):
             raise ValueError("object accretion rate must be a number ")
         else:
-            self.temp = float(temp)
-            if self.type != 'bh' and float(temp) == 4000.:
+            if self.type != 'bh' and float(temp) == 1.:
                 print('Using default Teff for YSO of 4000 K')
+                self.temp = 4000.
+            elif self.type != 'bh':
+                self.temp = float(temp)
 
 
         """ Optional """    
         if isinstance(magnetosphere, bool):
              print("The variable must be of boolean type True or False.")
         else:
-            self.magnetosphere = magnetosphere
+            self.magnetosphere = magnetosphere()
 
         """ All inputs are validated. Now calculate the secundary variables needed for the type of object"""
         if self.type != 'bh':
                 self.Lacc = yso.get_Lacc(self.mass,self.radius,self.mdot)
                 self.Lstar = yso.get_Lstar(self.radius,self.temp)
-                self.Rsub = yso.get_Rsub(self.Lstar,self.Lacc)
 
-        def magnetosphere():
-            "will return magnetospheric radius"
-            return print("Moduled under construction")
+
 
 class Disk(object):
 
@@ -112,9 +111,9 @@ class Disk(object):
         
     
 
-def plot_disk(thing,rout=1):
+def plot_disk(thing,rout=1.):
 
-    if isinstance(object, CentralObject):
+    if isinstance(thing, CentralObject):
         raise TypeError("central_object but be a CentralObjecy type")
     else:  
         disco = Disk(thing)
@@ -126,7 +125,7 @@ def plot_disk(thing,rout=1):
     elif rout == 1:
         print("Using default velue for the outer radius of the disk. Rout = 100 Rin,\
                           Rin is calculated accordingly for each object type.")
-        rout = 100*disco.Rin
+        rout = 10*disco.Rin
     else:
         rout = float(rout)
 
