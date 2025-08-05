@@ -127,7 +127,7 @@ def plot_disk(disco,rout=1.):
     else:
         rout = float(rout)
 
-    print(f'Potting your {thing.type}')
+    print(f'Potting your {disco.type}')
 
     R = np.linspace(disco.Rin,rout)
 
