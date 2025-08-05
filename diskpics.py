@@ -103,18 +103,18 @@ class Disk(CentralObject):
 
     def get_disk_shape(self,R):
         if self.type == 'bh':
-            self.scale_height =  bh.get_ScaleHeight(R, self.mass, mdot = self.mdot)
+            self.scale_height =  bh.get_ScaleHeight(R, self.mass, mdot = self.central_obj.mdot)
         else:
             self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
         
     
 
-def plot_disk(thing,rout=1.):
+def plot_disk(disco,rout=1.):
 
-    if isinstance(type(thing), CentralObject):
-        raise TypeError("central_object but be a CentralObjecy type")
-    else:  
-        disco = Disk(thing)
+    # if isinstance(type(thing), CentralObject):
+    #     raise TypeError("central_object but be a CentralObjecy type")
+    # else:  
+    #     disco = Disk(thing)
 
     disco.get_inner_radii()
 
