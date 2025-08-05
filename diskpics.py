@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import yso_utils as yso
+import bh_utils as bh
 
-# This probably would need to be used inside class for disk
+
 class CentralObject(object):
     """
     Central object to the accretion disk
@@ -27,24 +28,24 @@ class CentralObject(object):
         if not isinstance(float(mass), float):
             raise ValueError("object mass must be a number ")
         else:
-            self.mass = mass
+            self.mass = float(mass)
 
         if not isinstance(float(mdot), float):
             raise ValueError("object accretion rate must be a number ")
         else:
-             self.mdot = mdot
+             self.mdot = float(mdot)
 
         "Required only if type is T Tauri or Herbig"
 
         if not isinstance(float(radius), float):
             raise ValueError("object accretion rate must be a number ")
         else:
-            self.radius = radius
+            self.radius = float(radius)
 
         if not isinstance(float(temp), float):
             raise ValueError("object accretion rate must be a number ")
         else:
-         self.temp = temp
+         self.temp = float(temp)
 
         # NO LONGER NECESARY ADDED "TYPICAL" values as default
         # if self.type in ['ttauri','herbig'] and (self.radius ==. or self.temp == 4000):
@@ -71,30 +72,61 @@ class CentralObject(object):
 
 class Disk(object):
 
-    def __init__(self,central_object,Rdisk =0., flared = False):
+    def __init__(self,central_object):
         
         if isinstance(central_object, CentralObject):
             raise TypeError("central_object but be a CentralObjecy type")
         else:  
             self.central_obj = central_object
 
-        if not isinstance(float(Rdisk), float):
-            raise ValueError("object accretion rate must be a number ")
-        else:
-            self.Rdisk = Rdisk
 
-        "Optional variables"
+    def get_inner_radii(self):
+        if self.central_object == 'bh':
+            self.Rin =  bh.get_InnermostCircularStableOrbit(self.central_obj.mass) 
+        else:
+            self.Rin = yso.get_Rsub(self.central_obj.Lstar,self.central_obj.Lacc)
+
+
+    def get_disk_temperature(self):
+        if self.central_object == 'bh':
+            self.tdisk = bh.temp(self)
+        else:
+            self.tdisk = yso.temp(self)
+
+
+    def get_disk_shape(self):
+        if self.central_object == 'bh':
+            self.scale_height =  bh.disk(self) #ADD NECESARY PARAM
+        else:
+            self.scale_height = yso.get_flared_disk(self) #ADD NECESARY PARAM
         
-        if isinstance(flared, bool):
-             print("The variable must be of boolean type True or False.")
-        else:
-            self.flared = flared
+    
 
-        def flared():
-            return print("Moduled under construction")
+def plot_disk(thing,rout=1):
 
-def temperature_gradient():
-    return print("NOT DONE YET")
+    if isinstance(object, CentralObject):
+        raise TypeError("central_object but be a CentralObjecy type")
+    else:  
+        disco = Disk(thing)
 
-def plot_disk():
-    return print("NOT DONE YET")
+    disco.get_inner_radii()
+
+    if not isinstance(float(rout), float):
+            raise ValueError("object Rdisk must be a number ")
+    elif rout == 1:
+        print("Using default velue for the outer radius of the disk. Rout = 100 Rin,\
+                          Rin is calculated accordingly for each object type.")
+        rout = 100*disco.Rin
+    else:
+        rout = float(rout)
+
+    print(f'Potting your {thing.type}')
+
+    R = np.linspace(disco.Rin,rout)
+
+    disco.get_disk_shape()
+    yaxis = disco.scale_height
+    
+    plt.plot(R,yaxis)
+
+    plt.show()

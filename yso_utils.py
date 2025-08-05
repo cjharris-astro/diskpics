@@ -9,3 +9,6 @@ def get_Lacc(mass,radius,mdot):
 
 def get_Rsub(Lstar,Lacc, Tsub = 1500):
         return np.sqrt( (Lstar+Lacc)*con.Lsun / (4*np.pi *Tsub) )
+
+def get_flared_disk(param):
+      return param
