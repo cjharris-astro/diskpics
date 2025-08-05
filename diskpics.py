@@ -19,8 +19,9 @@ class CentralObject(object):
         type = type.replace('-','')
         type = type.replace(' ','')
 
+
         if type not in ['bh','ttauri','herbig']:
-             raise ValueError("object type must be one of this str: 'BH', 'TTauri', 'Herbig' ")
+            raise ValueError("object type must be one of this str: 'BH', 'TTauri', 'Herbig' ")
         else:
             self.type = type
 
@@ -79,15 +80,12 @@ class CentralObject(object):
 
 
 
-class Disk(object):
+class Disk(CentralObject):
 
-    def __init__(self,central_object):
+    # def __init__(self,central_object):
         
-        if isinstance(central_object, CentralObject):
-            raise TypeError("central_object but be a CentralObjecy type")
-        else:  
-            self.central_obj = central_object
-
+    if isinstance(type(central_object), CentralObject):
+        raise TypeError("central_object but be a CentralObjecy type")
 
     def get_inner_radii(self):
         if self.central_obj.type == 'bh':
@@ -113,7 +111,7 @@ class Disk(object):
 
 def plot_disk(thing,rout=1.):
 
-    if isinstance(thing, CentralObject):
+    if isinstance(type(thing), CentralObject):
         raise TypeError("central_object but be a CentralObjecy type")
     else:  
         disco = Disk(thing)
