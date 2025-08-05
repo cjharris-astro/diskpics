@@ -84,8 +84,8 @@ class Disk(CentralObject):
 
     # def __init__(self,central_object):
         
-    if isinstance(type(central_object), CentralObject):
-        raise TypeError("central_object but be a CentralObjecy type")
+    # if isinstance(type(CentralObject), CentralObject):
+        # raise TypeError("central_object but be a CentralObjecy type")
 
     def get_inner_radii(self):
         if self.central_obj.type == 'bh':
