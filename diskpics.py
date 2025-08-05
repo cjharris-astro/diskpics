@@ -85,25 +85,25 @@ class Disk(CentralObject):
     # def __init__(self,central_object):
         
     # if isinstance(type(CentralObject), CentralObject):
-        # raise TypeError("central_object but be a CentralObjecy type")
+        # raise TypeError("central_object but be a CentralObject type")
 
     def get_inner_radii(self):
-        if self.central_obj.type == 'bh':
-            self.Rin =  bh.get_InnermostCircularStableOrbit(self.central_obj.mass) 
+        if self.type == 'bh':
+            self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass) 
         else:
-            self.Rin = yso.get_Rsub(self.central_obj.Lstar,self.central_obj.Lacc)
+            self.Rin = yso.get_Rsub(self.Lstar,self.Lacc)
 
 
     def get_disk_temperature(self,R):
-        if self.central_obj.type == 'bh':
-            self.tdisk = bh.get_DiskTemp(R, self.central_obj.mass, self.central_obj.mdot)
+        if self.type == 'bh':
+            self.tdisk = bh.get_DiskTemp(R, self.mass, self.mdot)
         else:
             self.tdisk = yso.temp(self)
 
 
     def get_disk_shape(self,R):
-        if self.central_obj.type == 'bh':
-            self.scale_height =  bh.get_ScaleHeight(R, self.central_obj.mass, mdot = self.central_obj.mdot)
+        if self.type == 'bh':
+            self.scale_height =  bh.get_ScaleHeight(R, self.mass, mdot = self.mdot)
         else:
             self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
         
