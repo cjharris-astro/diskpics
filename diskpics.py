@@ -94,9 +94,9 @@ class Disk(object):
             self.Rin = yso.get_Rsub(self.central_obj.Lstar,self.central_obj.Lacc)
 
 
-    def get_disk_temperature(self):
+    def get_disk_temperature(self,R):
         if self.central_obj.type == 'bh':
-            self.tdisk = bh.temp(self)
+            self.tdisk = bh.get_DiskTemp(R, self.central_obj.mass, self.central_obj.mdot)
         else:
             self.tdisk = yso.temp(self)
 
@@ -132,6 +132,7 @@ def plot_disk(thing,rout=1):
     R = np.linspace(disco.Rin,rout)
 
     disco.get_disk_shape(R)
+    disco.get_disk_temperature(R)
     
     plt.plot(R,disco.scale_height)
 
