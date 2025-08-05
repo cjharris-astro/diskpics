@@ -10,7 +10,6 @@ class CentralObject(object):
     """
     def __init__(self,type,mass,mdot=1.,radius = 1., temp = 4000., magnetosphere = False, ):
 
-
         """Obligatory variables """
 
         if not isinstance(type, str):
@@ -46,19 +45,23 @@ class CentralObject(object):
 
         if not isinstance(float(radius), float):
             raise ValueError("object accretion rate must be a number ")
+        elif float(radius) == 1:
+            print('Usind Default values for radius. if BH this is the Schwartzchild Radius. \
+                  If object is a YSO, radius is 1Rsun')
+            if self.type == 'bh':
+                self.radius = bh.get_SchwartzchildRadius(self.mass)
+            else:
+                self.radius = float(radius)
         else:
             self.radius = float(radius)
+
 
         if not isinstance(float(temp), float):
             raise ValueError("object accretion rate must be a number ")
         else:
-         self.temp = float(temp)
-
-        # NO LONGER NECESARY ADDED "TYPICAL" values as default
-        # if self.type in ['ttauri','herbig'] and (self.radius ==. or self.temp == 4000):
-        #     raise ValueError("Your object type is a T Tauri or Herbig disk, \
-        #                      you need to input a real value for R* and Teff, \
-        #                       default values are 0")
+            self.temp = float(temp)
+            if self.type != 'bh' and float(temp) == 4000.:
+                print('Using default Teff for YSO of 4000 K')
 
 
         """ Optional """    
@@ -133,7 +136,7 @@ def plot_disk(thing,rout=1):
 
     disco.get_disk_shape(R)
     disco.get_disk_temperature(R)
-    
+
     plt.plot(R,disco.scale_height)
 
     plt.show()
