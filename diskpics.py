@@ -88,21 +88,21 @@ class Disk(object):
 
 
     def get_inner_radii(self):
-        if self.central_object == 'bh':
+        if self.central_obj.type == 'bh':
             self.Rin =  bh.get_InnermostCircularStableOrbit(self.central_obj.mass) 
         else:
             self.Rin = yso.get_Rsub(self.central_obj.Lstar,self.central_obj.Lacc)
 
 
     def get_disk_temperature(self):
-        if self.central_object == 'bh':
+        if self.central_obj.type == 'bh':
             self.tdisk = bh.temp(self)
         else:
             self.tdisk = yso.temp(self)
 
 
     def get_disk_shape(self,R):
-        if self.central_object == 'bh':
+        if self.central_obj.type == 'bh':
             self.scale_height =  bh.get_ScaleHeight(R, self.central_obj.mass, mdot = self.central_obj.mdot)
         else:
             self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
