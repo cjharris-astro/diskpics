@@ -103,7 +103,7 @@ class Disk(CentralObject):
 
     def get_disk_shape(self,R):
         if self.type == 'bh':
-            self.scale_height =  bh.get_ScaleHeight(R, self.mass, mdot = self.central_obj.mdot)
+            self.scale_height =  bh.get_ScaleHeight(R, self.mass, mdot = self.mdot)
         else:
             self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
         
