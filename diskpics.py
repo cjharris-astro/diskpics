@@ -71,7 +71,7 @@ class CentralObject(object):
             self.magnetosphere = magnetosphere
 
         """ All inputs are validated. Now calculate the secundary variables needed for the type of object"""
-        if self.type in ['ttauri','herbig']:
+        if self.type != 'bh':
                 self.Lacc = yso.get_Lacc(self.mass,self.radius,self.mdot)
                 self.Lstar = yso.get_Lstar(self.radius,self.temp)
                 self.Rsub = yso.get_Rsub(self.Lstar,self.Lacc)
