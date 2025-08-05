@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import yso_utils as yso
-import bh_utils as bh
+import diskpics.yso_utils as yso
+import diskpics.bh_utils as bh
 
 
 class CentralObject(object):

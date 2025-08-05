@@ -1,5 +1,5 @@
 import numpy as np
-import constants as con
+import diskpics.constants as con
 
 def get_Lstar(radius,temp):
       return 4*np.pi*(radius*con.Rsun)**2 * con.sig_sb * (temp)**4
@@ -12,3 +12,6 @@ def get_Rsub(Lstar,Lacc, Tsub = 1500):
 
 def get_flared_disk(param):
       return param
+
+def magnetosphere():
+    return print("Moduled under construction")
