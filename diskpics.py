@@ -98,3 +98,9 @@ def temperature_gradient():
 
 def plot_disk():
     return print("NOT DONE YET")
+
+print("Incomming bug!")
+
+arr = [0,1,2,3]
+
+item = arr[6]

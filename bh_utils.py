@@ -32,6 +32,14 @@ def get_InnermostCircularStableOrbit(mbh, spin=False):
 
     return risco
 
+def get_DiskTemp(rads, mbh, mdot):
+    rs = bh.get_SchwartzchildRadius(mbh)
+    p1 = 3 * c.G * mbh * mdot
+    p2 = 8 * np.pi * c.sig_sb * rads**3
+    p3 = 1-(rs/rads)**(1/2)
+    
+    return ((p1/p2)*p3)**(1/4)
+
 def get_ScaleHeight(rads, mbh, mdot=10**(-8.5), alpha=0.1):
 
     rg = c.G * mbh / c.c**2

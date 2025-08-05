@@ -1,0 +1,36 @@
+savefig.bbox		: tight			# Aspect Ratio Settings
+savefig.dpi		: 200
+figure.dpi		: 200
+figure.figsize		: 4, 4
+
+font.size		: 12			# Font style and sizes
+font.family		: sans-serif
+font.sans-serif		: Times New Roman
+
+xtick.top		: True			# x-axis settings
+xtick.bottom		: True
+xtick.direction		: in
+xtick.minor.visible	: True
+xtick.major.size	: 7
+xtick.minor.size	: 3
+xtick.labelsize		: 12
+
+ytick.left		: True			# y-axis settings
+ytick.right		: True
+ytick.direction		: in
+ytick.minor.visible	: True
+ytick.major.size	: 7
+ytick.minor.size	: 3
+ytick.labelsize		: 12
+
+legend.fontsize		: 8
+legend.frameon		: True
+axes.labelsize		: 14
+axes.prop_cycle		: cycler(color=['xkcd:velvet', 'xkcd:pumpkin', 'xkcd:goldenrod', 'xkcd:jade', 'xkcd:petrol', 'xkcd:deep sea blue', 'xkcd:twilight'])
+lines.linewidth		: 1.5
+
+
+figure.facecolor	: white
+
+mathtext.fontset	: custom
+text.usetex		: False
