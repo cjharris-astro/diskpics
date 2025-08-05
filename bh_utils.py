@@ -56,4 +56,4 @@ def get_ScaleHeight(rads, mbh, mdot=10**(-8.5), alpha=0.1):
 
     ztot = np.concatenate((zi[:zi_zm_idx[-1]], zm[zi_zm_idx[-1]:]))
 
-    return ztot, zi, zm
+    return ztot #, zi, zm
