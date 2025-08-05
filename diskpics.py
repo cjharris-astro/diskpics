@@ -8,7 +8,7 @@ class CentralObject(object):
     """
     Central object to the accretion disk
     """
-    def __init__(self,type,mass,mdot,radius = 1., temp = 4000., magnetosphere = False, ):
+    def __init__(self,type,mass,mdot=1.,radius = 1., temp = 4000., magnetosphere = False, ):
 
 
         """Obligatory variables """
@@ -32,6 +32,13 @@ class CentralObject(object):
 
         if not isinstance(float(mdot), float):
             raise ValueError("object accretion rate must be a number ")
+        elif float(mdot) ==1. :
+            print('Using typical values for mdot. if object is a yso then mdot = 1e-8,\
+                    if object is a black hole then mdot is 10^(-8.5)')
+            if self.type == 'bh':
+                self.mdot = 10**(-8.5)
+            else:
+                self.mdot = 1e-8
         else:
              self.mdot = float(mdot)
 
@@ -94,11 +101,11 @@ class Disk(object):
             self.tdisk = yso.temp(self)
 
 
-    def get_disk_shape(self):
+    def get_disk_shape(self,R):
         if self.central_object == 'bh':
-            self.scale_height =  bh.disk(self) #ADD NECESARY PARAM
+            self.scale_height =  bh.get_ScaleHeight(R, self.central_obj.mass, mdot = self.central_obj.mdot)
         else:
-            self.scale_height = yso.get_flared_disk(self) #ADD NECESARY PARAM
+            self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
         
     
 
@@ -124,9 +131,8 @@ def plot_disk(thing,rout=1):
 
     R = np.linspace(disco.Rin,rout)
 
-    disco.get_disk_shape()
-    yaxis = disco.scale_height
+    disco.get_disk_shape(R)
     
-    plt.plot(R,yaxis)
+    plt.plot(R,disco.scale_height)
 
     plt.show()
