@@ -129,7 +129,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     R = np.linspace(disco.Rin.cgs,rout.cgs)
 
-    plt.style.use('./diskpic.mplstyle')
+    # plt.style.use('./diskpic.mplstyle')
 
 
     disco.get_disk_shape(R)
