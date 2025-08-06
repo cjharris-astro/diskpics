@@ -131,6 +131,9 @@ def plot_disk(disco,rout=1.):
 
     R = np.linspace(disco.Rin,rout)
 
+    plt.style.use('./diskpic.mplstyle')
+
+
     disco.get_disk_shape(R)
     disco.get_disk_temperature(R)
 
