@@ -127,7 +127,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     print(f'Potting your {disco.type}')
 
-    R = np.linspace(disco.Rin.cgs.value,rout.cgs.value)
+    R = np.linspace(disco.Rin,rout)
 
     # plt.style.use('./diskpic.mplstyle')
 
