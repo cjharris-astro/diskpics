@@ -49,7 +49,7 @@ class CentralObject(object):
         elif radius.value == 1:
             print('Usind Default values for radius. if BH this is the Schwartzchild Radius. If object is a YSO, default value is 1 Rsun')
             if self.type == 'bh':
-                self.radius = bh.get_SchwartzchildRadius(self.mass.cgs)
+                self.radius = bh.get_SchwartzchildRadius(self.mass.cgs.value)
             else:
                 self.radius = radius
         else:
@@ -88,21 +88,21 @@ class Disk(CentralObject):
 
     def get_inner_radii(self):
         if self.type == 'bh':
-            self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass.cgs) 
+            self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass.cgs.value) 
         else:
             self.Rin = yso.get_Rsub(self.Lstar.to(u.Lsun),self.Lacc.to(u.Lsun))
 
 
     def get_disk_temperature(self,R):
         if self.type == 'bh':
-            self.tdisk = bh.get_DiskTemp(R, self.mass.cgs, self.mdot.cgs)
+            self.tdisk = bh.get_DiskTemp(R, self.mass.cgs.value, self.mdot.cgs.value)
         else:
             self.tdisk = yso.temp(self)
 
 
     def get_disk_shape(self,R):
         if self.type == 'bh':
-            self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs, mdot = self.mdot.cgs)
+            self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs.value, mdot = self.mdot.cgs.value)
         else:
             self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
         
@@ -127,7 +127,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     print(f'Potting your {disco.type}')
 
-    R = np.linspace(disco.Rin.cgs,rout.cgs)
+    R = np.linspace(disco.Rin.cgs.value,rout.cgs.value)
 
     # plt.style.use('./diskpic.mplstyle')
 
