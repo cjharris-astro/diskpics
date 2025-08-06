@@ -2,13 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import diskpics.yso_utils as yso
 import diskpics.bh_utils as bh
-
+from astropy import units as u
+from astropy.units import Quantity
 
 class CentralObject(object):
     """
     Central object to the accretion disk
     """
-    def __init__(self,type,mass,mdot=1.,radius = 1., temp = 1., magnetosphere = False, ):
+    def __init__(self,type,mass,mdot=1.*u.Msun/u.yr,radius = 1.*u.Rsun, temp = 1.*u.K, magnetosphere = False, ):
 
         """Obligatory variables """
 
@@ -25,46 +26,44 @@ class CentralObject(object):
         else:
             self.type = type
 
-        if not isinstance(float(mass), float):
-            raise ValueError("object mass must be a number ")
+        if not isinstance(mass, Quantity):
+            raise ValueError("object mass must be a Quantity (uses astropy units) ")
         else:
-            self.mass = float(mass)
+            self.mass = mass
 
-        if not isinstance(float(mdot), float):
-            raise ValueError("object accretion rate must be a number ")
-        elif float(mdot) ==1. :
-            print('Using typical values for mdot. if object is a yso then mdot = 1e-8,\
-                    if object is a black hole then mdot is 10^(-8.5)')
+        if not isinstance(mdot, Quantity):
+            raise ValueError("object accretion rate must be a Quantity (uses astropy units) ")
+        elif mdot.value ==1. :
+            print('Using typical values for mdot. if object is a yso then mdot = 1e-8 Msun/yr, if object is a black hole then mdot is 10^(-8.5)Msun/yr')
             if self.type == 'bh':
-                self.mdot = 10**(-8.5)
+                self.mdot = mdot * 10**(-8.5) 
             else:
-                self.mdot = 1e-8
+                self.mdot = mdot * 1e-8 
         else:
-             self.mdot = float(mdot)
+             self.mdot = mdot
 
         "Required only if type is T Tauri or Herbig"
 
-        if not isinstance(float(radius), float):
-            raise ValueError("object accretion rate must be a number ")
-        elif float(radius) == 1:
-            print('Usind Default values for radius. if BH this is the Schwartzchild Radius. \
-                  If object is a YSO, radius is 1Rsun')
+        if not isinstance(radius, Quantity):
+            raise ValueError("object accretion rate must be a Quantity (uses astropy units) ")
+        elif radius.value == 1:
+            print('Usind Default values for radius. if BH this is the Schwartzchild Radius. If object is a YSO, default value is 1 Rsun')
             if self.type == 'bh':
-                self.radius = bh.get_SchwartzchildRadius(self.mass)
+                self.radius = bh.get_SchwartzchildRadius(self.mass.cgs)
             else:
-                self.radius = float(radius)
+                self.radius = radius
         else:
-            self.radius = float(radius)
+            self.radius = radius
 
 
-        if not isinstance(float(temp), float):
-            raise ValueError("object accretion rate must be a number ")
+        if not isinstance(temp, Quantity):
+            raise ValueError("object accretion rate must be a Quantity (uses astropy units) ")
         else:
-            if self.type != 'bh' and float(temp) == 1.:
+            if self.type != 'bh' and temp.value == 1.:
                 print('Using default Teff for YSO of 4000 K')
-                self.temp = 4000.
+                self.temp = 4000.*u.K
             elif self.type != 'bh':
-                self.temp = float(temp)
+                self.temp = temp
 
 
         """ Optional """    
@@ -75,8 +74,8 @@ class CentralObject(object):
 
         """ All inputs are validated. Now calculate the secundary variables needed for the type of object"""
         if self.type != 'bh':
-                self.Lacc = yso.get_Lacc(self.mass,self.radius,self.mdot)
-                self.Lstar = yso.get_Lstar(self.radius,self.temp)
+                self.Lacc = yso.get_Lacc(self.mass.to(u.Msun),self.radius.to(u.Rsun),self.mdot.to(u.Msun/u.yr))
+                self.Lstar = yso.get_Lstar(self.radius.to(u.Rsun),self.temp.to(u.K))
 
 
 
@@ -89,27 +88,27 @@ class Disk(CentralObject):
 
     def get_inner_radii(self):
         if self.type == 'bh':
-            self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass) 
+            self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass.cgs) 
         else:
-            self.Rin = yso.get_Rsub(self.Lstar,self.Lacc)
+            self.Rin = yso.get_Rsub(self.Lstar.to(u.Lsun),self.Lacc.to(u.Lsun))
 
 
     def get_disk_temperature(self,R):
         if self.type == 'bh':
-            self.tdisk = bh.get_DiskTemp(R, self.mass, self.mdot)
+            self.tdisk = bh.get_DiskTemp(R, self.mass.cgs, self.mdot.cgs)
         else:
             self.tdisk = yso.temp(self)
 
 
     def get_disk_shape(self,R):
         if self.type == 'bh':
-            self.scale_height =  bh.get_ScaleHeight(R, self.mass, mdot = self.mdot)
+            self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs, mdot = self.mdot.cgs)
         else:
             self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
         
     
 
-def plot_disk(disco,rout=1.):
+def plot_disk(disco,rout=1.*u.Rsun):
 
     # if isinstance(type(thing), CentralObject):
     #     raise TypeError("central_object but be a CentralObjecy type")
@@ -118,18 +117,17 @@ def plot_disk(disco,rout=1.):
 
     disco.get_inner_radii()
 
-    if not isinstance(float(rout), float):
-            raise ValueError("object Rdisk must be a number ")
-    elif rout == 1:
-        print("Using default velue for the outer radius of the disk. Rout = 100 Rin,\
-                          Rin is calculated accordingly for each object type.")
+    if not isinstance(rout, Quantity):
+            raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
+    elif rout.value == 1:
+        print("Using default velue for the outer radius of the disk. Rout = 10 Rin")
         rout = 10*disco.Rin
     else:
-        rout = float(rout)
+        rout = rout
 
     print(f'Potting your {disco.type}')
 
-    R = np.linspace(disco.Rin,rout)
+    R = np.linspace(disco.Rin.cgs,rout.cgs)
 
     plt.style.use('./diskpic.mplstyle')
 
@@ -137,6 +135,6 @@ def plot_disk(disco,rout=1.):
     disco.get_disk_shape(R)
     disco.get_disk_temperature(R)
 
-    plt.plot(R,disco.scale_height)
+    plt.plot(R/disco.radius,disco.scale_height)
 
     plt.show()
