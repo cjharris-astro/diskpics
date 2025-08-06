@@ -1,6 +1,7 @@
 import numpy as np
 # import diskpics.constants as con
 from astropy import constants as con
+from astropy import units as u
 
 sig_sb = con.sigma_sb.to(u.erg/(u.cm**2*u.Kelvin**4*u.s))
 
