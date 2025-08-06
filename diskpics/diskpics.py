@@ -95,14 +95,14 @@ class Disk(CentralObject):
 
     def get_disk_temperature(self,R):
         if self.type == 'bh':
-            self.tdisk = bh.get_DiskTemp(R, self.mass.cgs.value, self.mdot.cgs.value)
+            self.tdisk = bh.get_DiskTemp(R, self.mass.cgs.value, self.mdot.value)
         else:
             self.tdisk = yso.temp(self)
 
 
     def get_disk_shape(self,R):
         if self.type == 'bh':
-            self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs.value, mdot = self.mdot.cgs.value)
+            self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs.value, mdot = self.mdot.value)
         else:
             self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
         
