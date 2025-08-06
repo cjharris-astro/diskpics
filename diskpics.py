@@ -121,7 +121,7 @@ def plot_disk(disco,rout=1.):
     if not isinstance(float(rout), float):
             raise ValueError("object Rdisk must be a number ")
     elif rout == 1:
-        print("Using default velue for the outer radius of the disk. Rout = 100 Rin,\
+        print("Using default velue for the outer radius of the disk. Rout = 10 Rin,\
                           Rin is calculated accordingly for each object type.")
         rout = 10*disco.Rin
     else:
@@ -129,14 +129,24 @@ def plot_disk(disco,rout=1.):
 
     print(f'Potting your {disco.type}')
 
+    #disk R-space
     R = np.linspace(disco.Rin,rout)
 
     plt.style.use('./diskpic.mplstyle')
 
+    #Draw central object
+    circle = plt.Circle((0, 0), 1, color='k')
+    plt.gca().add_patch(circle) 
 
+
+    #Get your disk
     disco.get_disk_shape(R)
     disco.get_disk_temperature(R)
 
-    plt.plot(R,disco.scale_height)
+    #Draw your disk
+    plt.plot(R/disco.radius, disco.scale_height/disco.radius)
+    
+    plt.xlabel(r'$\rm R/R_{ob}$')
+
 
     plt.show()
