@@ -131,7 +131,7 @@ class Disk(CentralObject):
     
 
 def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
- """Plot Disks
+    """Plot Disks
 
     Args:
         disco (float): Inner disk radius
