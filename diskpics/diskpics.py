@@ -183,6 +183,10 @@ def plot_disk(disco,rout=1.*u.Rsun):
     plt.yticks(fontsize=12)
 
     plt.gca().set_facecolor('none')
+    
     plt.gca().spines['top'].set_visible(False)
     plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['bottom'].set_linewidth(2) 
+    plt.gca().spines['left'].set_linewidth(2) 
+
     plt.show()
