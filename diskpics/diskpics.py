@@ -102,7 +102,7 @@ class Disk(CentralObject):
         if self.type == 'bh':
             self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass.cgs.value) *u.cm
         else:
-            self.Rin = yso.get_Rsub(self.Lstar,self.Lacc)
+            self.Rin = yso.get_Rsub(self.Lstar.to(u.Lsun),self.Lacc)
 
 
     def get_disk_temperature(self,R):
