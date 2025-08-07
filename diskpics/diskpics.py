@@ -111,6 +111,7 @@ class Disk(CentralObject):
 
 def plot_disk(disco,rout=1.*u.Rsun):
 
+    plt.figure(figsize=(10,2.5))
     # if isinstance(type(thing), CentralObject):
     #     raise TypeError("central_object but be a CentralObjecy type")
     # else:  
@@ -156,7 +157,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     plt.gca().add_patch(circle)
     
-    plt.fill_between(R,yaxis,color=disco.tdisk,cmap=cmap, norm=normalize,zorder=0)
+    plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
 
 
 
