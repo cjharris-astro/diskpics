@@ -131,25 +131,28 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     # plt.style.use('./diskpic.mplstyle')
 
+
+    disco.get_disk_shape(R)
+    disco.get_disk_temperature(R)
+
+    plt.plot(R/disco.radius, (disco.scale_height*u.cm).to(u.au))
+
+    circle_r = np.sqrt(1**2+disco.radius.to(u.au)**2)
     if disco.type == 'bh':
-        circle = plt.Circle((0, 0), 1, color='k')
+        circle = plt.Circle((0, 0), r, color='k')
     else:
-        circle = plt.Circle((0, 0), 1, color='orange')
+        circle = plt.Circle((0, 0), r, color='orange')
 
     plt.gca().add_patch(circle)
     
 
 
-    disco.get_disk_shape(R)
-    disco.get_disk_temperature(R)
-
-    plt.plot(R/disco.radius, disco.scale_height/R)
 
     # plt.xlim(0,max(R/disco.radius))
     plt.xlabel(r'$\rm R/R_{obj}$')
-    plt.ylabel(r'$\rm H/R$')
+    plt.ylabel(r'$\rm H (au)$')
 
-    plt.ylim(0,max(disco.scale_height/R))
+    plt.ylim(0,max((disco.scale_height*u.cm).to(u.au)))
     plt.xlim(0,max(R/disco.radius))
 
     # plt.gca().set_aspect('equal')
