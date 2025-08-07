@@ -19,3 +19,40 @@ def get_flared_disk(param):
 
 def magnetosphere():
     return print("Moduled under construction")
+
+def flared_temp_distribution(Lsun,Rsun,Msun,Rarray):
+    Rarray = Rarray
+    Ls = Lsun.cgs
+    Rs = Rsun.cgs
+    sigma_sb = con.sigma_sb.cgs
+    K_b = con.k_B.cgs
+    mu = 2.3
+    mh = con.u.cgs
+    G = con.G.cgs
+    
+    Ms = con.M_sun.cgs*Msun
+
+    one = (Ls/(4*np.pi*Rs**2*sigma_sb))**2
+    two = K_b/(mu*mh)
+    three = Rarray/(G*Ms)
+
+    Td = (one*two*three)**(1/7)
+    
+    return Td
+
+def flared_disk_ScaleHeight(Msun,Rarray,Td):
+
+    mu = 2.3
+    mh = con.u.cgs
+    G = con.G.cgs
+    Ms = Msun.cgs
+    K_b = con.k_B.cgs
+
+    cs = np.sqrt((K_b*Td)/(mu*mh))
+
+    v_k = np.sqrt(G*Ms/Rarray)
+
+    H = cs/v_k*Rarray
+
+    return H.cgs
+     
