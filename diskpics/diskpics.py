@@ -155,7 +155,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
     plt.xlabel(r'$\rm R/R_{obj}$')
     plt.ylabel(r'$\rm H/R_{obj}$')
 
-    plt.ylim(0,max(disco.scale_height))
+    plt.ylim(0,max(disco.scale_height/disco.radius.value))
     plt.xlim(0,max(R/disco.radius.value))
 
     # plt.semilogy()
