@@ -13,7 +13,7 @@ def test_bh():
     mdot_expected = 10**(-8.5)
     rin_expected = 2954126.5550554055 * u.cm
     
-    R_expected = np.linspace(rin_expected, 5*rin_expected)
+    R_expected = np.linspace(rin_expected.value, 5*rin_expected.value)
 
     temp_expected = np.array([      0.        , 5062535.62832682, 5622699.23576385,
        5838058.98984919, 5909294.82074894, 5906389.183052  ,
@@ -36,4 +36,10 @@ def test_bh():
 
     BH = dp.CentralObject('bh', mass=mbh_expected)
     mbh = BH.mass
+    mdot = BH.mdot
+    temp = bh.get_DiskTemp(R_expected, mbh.value, mdot)
+
     assert mbh.value == pt.approx(mbh_expected.value, abs=0.2*mbh_expected.value)
+    assert mdot == pt.approx(mdot_expected, abs=0.2*mdot_expected)
+    # assert temp == pt.approx(temp_expected, abs=temp_expected*0.2)
+
