@@ -4,6 +4,8 @@ import diskpics.diskpics.yso_utils as yso
 import diskpics.diskpics.bh_utils as bh
 from astropy import units as u
 from astropy.units import Quantity
+import matplotlib as mpl
+import os
 
 class CentralObject(object):
     """
@@ -49,7 +51,7 @@ class CentralObject(object):
         elif radius.value == 1:
             print('Usind Default values for radius. if BH this is the Schwartzchild Radius. If object is a YSO, default value is 1 Rsun')
             if self.type == 'bh':
-                self.radius = bh.get_SchwartzchildRadius(self.mass.cgs.value)
+                self.radius = bh.get_SchwartzchildRadius(self.mass.cgs.value) *u.cm
             else:
                 self.radius = radius
         else:
@@ -110,45 +112,69 @@ class Disk(CentralObject):
 
 def plot_disk(disco,rout=1.*u.Rsun):
 
-    # if isinstance(type(thing), CentralObject):
-    #     raise TypeError("central_object but be a CentralObjecy type")
-    # else:  
-    #     disco = Disk(thing)
+    # plt.style.use(f'{os.getcwd()}/diskpic.mplstyle')
+    with plt.xkcd():
 
-    disco.get_inner_radii()
+        plt.figure(figsize=(10,2.5))
+        # if isinstance(type(thing), CentralObject):
+        #     raise TypeError("central_object but be a CentralObjecy type")
+        # else:  
+        #     disco = Disk(thing)
 
-    if not isinstance(rout, Quantity):
-            raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
-    elif rout.value == 1:
-        print("Using default velue for the outer radius of the disk. Rout = 5 Rin")
-        rout = 5*disco.Rin
-    else:
-        rout = rout
+        disco.get_inner_radii()
 
-    print(f'Potting your {disco.type}')
+        if not isinstance(rout, Quantity):
+                raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
+        elif rout.value == 1:
+            print("Using default velue for the outer radius of the disk. Rout = 5 Rin")
+            rout = 5*disco.Rin
+        else:
+            rout = rout
 
-    R = np.linspace(disco.Rin,rout)
+        print(f'Potting your {disco.type}')
 
-    # plt.style.use('./diskpic.mplstyle')
+        R = np.linspace(disco.Rin,rout)
 
-    if disco.type == 'bh':
-        circle = plt.Circle((0, 0), 1, color='k')
-    else:
-        circle = plt.Circle((0, 0), 1, color='orange')
+        disco.get_disk_shape(R)
+        disco.get_disk_temperature(R)
 
-    plt.gca().add_patch(circle)
+        yaxis = disco.scale_height/disco.radius.value
+        xaxis = R/disco.radius.value
+        plt.plot(xaxis, yaxis, c= 'k')
+
+        disco.get_disk_temperature(R)
+
+        cmap =  mpl.cm.get_cmap('Spectral_r')
+
     
+        # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
+        # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
+        circle_r = 1
+        if disco.type == 'bh':
+            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.tdisk))
+            circle = plt.Circle((0, 0), circle_r, color='k')
+        else:
+            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.temp))
+            circle = plt.Circle((0, 0), circle_r, color=disco.temp)
+
+        plt.gca().add_patch(circle)
+        
+        for i in range(len(R) - 1):
+            color_val = disco.tdisk[i]
+            color = cmap(normalize(color_val))
+            plt.fill_between(xaxis[i:i+2], yaxis[i:i+2], color=color)
+            # plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
 
 
-    disco.get_disk_shape(R)
-    disco.get_disk_temperature(R)
-
-    plt.plot(R/disco.radius, disco.scale_height/disco.radius)
-
-    # plt.xlim(0,max(R/disco.radius))
-    plt.xlabel(r'$\rm R/R_{obj}$')
-    plt.ylabel(r'$\rm H/R_{obj}$')
 
 
-    # plt.gca().set_aspect('equal')
-    plt.show()
+        # plt.xlim(0,max(R/disco.radius))
+        plt.xlabel(r'$\rm R/R_{obj}$')
+        plt.ylabel(r'$\rm H/R_{obj}$')
+
+        plt.ylim(0,max(yaxis))
+        plt.xlim(0,max(xaxis))
+
+        # plt.semilogy()
+        # plt.gca().set_aspect('equal')
+        plt.show()
