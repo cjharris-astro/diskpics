@@ -17,7 +17,7 @@ def inner_radius(Lsun,T_sub):
 inner_radius(1,1500)
 
 def flared_temp_distribution(Lsun,Rsun,Msun,Rarray):
-    Rarray = Rarray*const.au.cgs
+    Rarray = Rarray
     Ls = const.L_sun.cgs *Lsun
     Rs = const.R_sun.cgs*Rsun
     sigma_sb = const.sigma_sb.cgs
@@ -36,14 +36,14 @@ def flared_temp_distribution(Lsun,Rsun,Msun,Rarray):
     v_k = np.sqrt(G*Ms/Rarray)
     H = cs/v_k*Rarray
     H_r = H*(-1)
-    return H, H_r
+    return H
 
 
 Rarray = np.linspace(inner_radius(1,1500),10*inner_radius(1,1500))
-flared_temp_distribution(1,1,1,Rarray)
+H, H_r = flared_temp_distribution(1,1,1,Rarray)
 
 
-
+'''
 Td = Ls**(2/7)* R**(-3/7)
 H = Td**(1/2) * R**(3/2)
 H_r = H*(-1)
@@ -61,11 +61,13 @@ R = np.linspace(Rin,Rout)
 Td = Lsun**(2/7)* R**(-3/7)
 H = Td**(1/2) * R**(3/2)
 H_r = H*(-1)
-circle = plt.Circle((0, 0), 1, color='r')
-plt.plot(R,H)
-plt.plot(R,H_r)
 
-plt.gca().add_patch(circle)
+'''
+#circle = plt.Circle((0, 0), 1, color='r')
+plt.plot(Rarray.to(u.AU),H.to(u.AU))
+plt.plot(Rarray.to(u.AU),H_r.to(u.AU))
+
+#plt.gca().add_patch(circle)
 plt.gca().set_aspect('equal')
 
 plt.show()
