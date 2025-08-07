@@ -123,68 +123,64 @@ class Disk(CentralObject):
 def plot_disk(disco,rout=1.*u.Rsun):
 
     # plt.style.use(f'{os.getcwd()}/diskpic.mplstyle')
-    with plt.xkcd():
+    # with plt.xkcd():
 
-        plt.figure(figsize=(10,2.5))
-        # if isinstance(type(thing), CentralObject):
-        #     raise TypeError("central_object but be a CentralObjecy type")
-        # else:  
-        #     disco = Disk(thing)
+    plt.figure(figsize=(10,2.5))
 
-        disco.get_inner_radii()
+    disco.get_inner_radii()
 
-        if not isinstance(rout, Quantity):
-                raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
-        elif rout.value == 1:
-            print("Using default velue for the outer radius of the disk. Rout = 5 Rin")
-            rout = 5*disco.Rin
-        else:
-            rout = rout
+    if not isinstance(rout, Quantity):
+            raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
+    elif rout.value == 1:
+        print("Using default velue for the outer radius of the disk. Rout = 5 Rin")
+        rout = 5*disco.Rin
+    else:
+        rout = rout
 
-        print(f'Potting your {disco.type}')
+    print(f'Potting your {disco.type}')
 
-        R = np.linspace(disco.Rin.cgs,rout.cgs)
+    R = np.linspace(disco.Rin.cgs,rout.cgs)
 
-        disco.get_disk_shape(R.value)
-        disco.get_disk_temperature(R.value)
+    disco.get_disk_shape(R.value)
+    disco.get_disk_temperature(R.value)
 
-        yaxis = disco.scale_height/disco.radius
-        xaxis = R/disco.radius
-        plt.plot(xaxis, yaxis, c= 'k')
+    yaxis = disco.scale_height/disco.radius
+    xaxis = R/disco.radius
+    plt.plot(xaxis, yaxis, c= 'k')
 
-        disco.get_disk_temperature(R.value)
+    disco.get_disk_temperature(R.value)
 
-        cmap =  mpl.cm.get_cmap('Spectral_r')
+    cmap =  mpl.cm.get_cmap('Spectral_r')
 
+
+    # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
+    # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
+    circle_r = 1
+    if disco.type == 'bh':
+        normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk.value), vmax=max(disco.tdisk.value))
+        circle = plt.Circle((0, 0), circle_r, color='k')
+    else:
+        normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk.value), vmax=max(disco.temp.value))
+        circle = plt.Circle((0, 0), circle_r, color=disco.temp)
+
+    plt.gca().add_patch(circle)
     
-        # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
-        # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
-        circle_r = 1
-        if disco.type == 'bh':
-            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk.value), vmax=max(disco.tdisk.value))
-            circle = plt.Circle((0, 0), circle_r, color='k')
-        else:
-            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk.value), vmax=max(disco.temp.value))
-            circle = plt.Circle((0, 0), circle_r, color=disco.temp)
-
-        plt.gca().add_patch(circle)
-        
-        for i in range(len(R) - 1):
-            color_val = disco.tdisk[i].value
-            color = cmap(normalize(color_val))
-            plt.fill_between(xaxis[i:i+2], yaxis[i:i+2], color=color)
-            # plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
+    for i in range(len(R) - 1):
+        color_val = disco.tdisk[i].value
+        color = cmap(normalize(color_val))
+        plt.fill_between(xaxis[i:i+2], yaxis[i:i+2], color=color)
+        # plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
 
 
+    # plt.xlim(0,max(R/disco.radius))
+    plt.xlabel(r'$\rm R/R_{obj}$')
+    plt.ylabel(r'$\rm H/R_{obj}$')
 
+    plt.ylim(0,max(yaxis),fontsize=14)
+    plt.xlim(0,max(xaxis),fontsize=14)
 
-        # plt.xlim(0,max(R/disco.radius))
-        plt.xlabel(r'$\rm R/R_{obj}$')
-        plt.ylabel(r'$\rm H/R_{obj}$')
-
-        plt.ylim(0,max(yaxis))
-        plt.xlim(0,max(xaxis))
-
+    plt.xticks(fontsize=10)
+    plt.yticks(fontsize=10)
 
     plt.gca().spines['top'].set_visible(False)
     plt.gca().spines['right'].set_visible(False)
