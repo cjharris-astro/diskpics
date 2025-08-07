@@ -159,7 +159,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
     
     for i in range(len(R) - 1):
         color_val = disco.tdisk[i]
-        color = cmap(normalize())
+        color = cmap(normalize(color_val))
         plt.fill_between(R[i:i+2], yaxis[i:i+2], color=color)
         # plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
 
