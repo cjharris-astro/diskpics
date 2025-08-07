@@ -141,8 +141,9 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
 
     R = np.linspace(disco.Rin.cgs,rout.cgs)
 
-    disco.get_disk_shape(R.value)
     disco.get_disk_temperature(R.value)
+    disco.get_disk_shape(R.value)
+   
 
     yaxis = disco.scale_height/disco.radius
     xaxis = R/disco.radius
