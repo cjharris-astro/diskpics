@@ -120,7 +120,7 @@ class Disk(CentralObject):
         
     
 
-def plot_disk(disco,rout=1.*u.Rsun):
+def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
 
     # plt.style.use(f'{os.getcwd()}/diskpic.mplstyle')
     # with plt.xkcd():
@@ -150,7 +150,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     disco.get_disk_temperature(R.value)
 
-    cmap =  mpl.cm.get_cmap('Spectral_r')
+    cmap =  mpl.cm.get_cmap(cmap)
 
 
     # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
