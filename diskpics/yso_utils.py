@@ -6,13 +6,13 @@ from astropy import units as u
 sig_sb = con.sigma_sb.to(u.erg/(u.cm**2*u.Kelvin**4*u.s))
 
 def get_Lstar(radius,temp):
-      return 4*np.pi*(radius*con.Rsun.cgs)**2 * sig_sb * (temp)**4
+      return 4*np.pi*(radius*u.Rsun.cgs)**2 * sig_sb * (temp)**4
 
 def get_Lacc(mass,radius,mdot):
-    return con.G * mass*con.Msun.cgs * (mdot*(con.Msun.cgs/con.yr.cgs)/(radius*con.Rsun.cgs))
+    return con.G * mass*u.Msun.cgs * (mdot*(u.Msun.cgs/con.yr.cgs)/(radius*u.Rsun.cgs))
 
 def get_Rsub(Lstar,Lacc, Tsub = 1500*u.K):
-        return np.sqrt( (Lstar+Lacc)*con.Lsun.cgs / (4*np.pi *Tsub) )
+        return np.sqrt( (Lstar+Lacc)*u.Lsun.cgs / (4*np.pi *Tsub) )
 
 def get_flared_disk(param):
       return param
@@ -20,35 +20,35 @@ def get_flared_disk(param):
 def magnetosphere():
     return print("Moduled under construction")
 
-def flared_temp_distribution(Lsun,Rsun,Msun,Rarray):
+def flared_temp_distribution(Lstar,Rstar,Mstar,Rarray):
     Rarray = Rarray
-    Ls = Lsun.cgs
-    Rs = Rsun.cgs
+    Ls = Lstar.cgs
+    Rs = Rstar.cgs
     sigma_sb = con.sigma_sb.cgs
     K_b = con.k_B.cgs
     mu = 2.3
     mh = con.u.cgs
     G = con.G.cgs
     
-    Ms = con.M_sun.cgs*Msun
+    Ms = Mstar.cgs
 
     one = (Ls/(4*np.pi*Rs**2*sigma_sb))**2
     two = K_b/(mu*mh)
     three = Rarray/(G*Ms)
 
     Td = (one*two*three)**(1/7)
-    
-    return Td
 
-def flared_disk_ScaleHeight(Msun,Rarray,Td):
+    return Td.to(u.K)
+
+def flared_disk_ScaleHeight(Mstar,Rarray,Tdisk):
 
     mu = 2.3
     mh = con.u.cgs
     G = con.G.cgs
-    Ms = Msun.cgs
+    Ms = Mstar.cgs
     K_b = con.k_B.cgs
 
-    cs = np.sqrt((K_b*Td)/(mu*mh))
+    cs = np.sqrt((K_b*Tdisk)/(mu*mh))
 
     v_k = np.sqrt(G*Ms/Rarray)
 
