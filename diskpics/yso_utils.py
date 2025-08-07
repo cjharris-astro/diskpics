@@ -6,16 +6,13 @@ from astropy import units as u
 sig_sb = con.sigma_sb.to(u.erg/(u.cm**2*u.Kelvin**4*u.s))
 
 def get_Lstar(radius,temp):
-      return 4*np.pi*(radius*u.Rsun.cgs)**2 * sig_sb * (temp)**4
+      return 4*np.pi*(radius.cgs)**2 * sig_sb * (temp)**4
 
 def get_Lacc(mass,radius,mdot):
-    return con.G * mass*u.Msun.cgs * (mdot*(u.Msun.cgs/u.yr.cgs)/(radius*u.Rsun.cgs))
+    return con.G * mass.cgs * (mdot.cgs/(radius.cgs))
 
 def get_Rsub(Lstar,Lacc, Tsub = 1500*u.K):
         return np.sqrt( (Lstar+Lacc)*u.Lsun.cgs / (4*np.pi *Tsub) )
-
-def get_flared_disk(param):
-      return param
 
 def magnetosphere():
     return print("Moduled under construction")
