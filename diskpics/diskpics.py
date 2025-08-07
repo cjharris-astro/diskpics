@@ -173,11 +173,11 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
 
     # plt.xlim(0,max(R/disco.radius))
-    plt.xlabel(r'$\rm R/R_{obj}$')
-    plt.ylabel(r'$\rm H/R_{obj}$')
+    plt.xlabel(r'$\rm R/R_{obj}$',fontsize=14)
+    plt.ylabel(r'$\rm H/R_{obj}$',fontsize=14)
 
-    plt.ylim(0,max(yaxis),fontsize=14)
-    plt.xlim(0,max(xaxis),fontsize=14)
+    plt.ylim(0,max(yaxis))
+    plt.xlim(0,max(xaxis))
 
     plt.xticks(fontsize=10)
     plt.yticks(fontsize=10)
