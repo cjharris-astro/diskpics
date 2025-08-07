@@ -145,6 +145,6 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     plt.plot(R/disco.radius,disco.scale_height)
 
-    plt.xlim(0,max(R/disco.radius))
-
+    # plt.xlim(0,max(R/disco.radius))
+    plt.xlabel(r'$\rm R/R_{obj}$')
     plt.show()
