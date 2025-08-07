@@ -110,7 +110,8 @@ class Disk(CentralObject):
     
 
 def plot_disk(disco,rout=1.*u.Rsun):
-    
+
+    plt.style.use('./diskpic/diskpic.mplstyle')
     with plt.xkcd():
 
         plt.figure(figsize=(10,2.5))
@@ -132,9 +133,6 @@ def plot_disk(disco,rout=1.*u.Rsun):
         print(f'Potting your {disco.type}')
 
         R = np.linspace(disco.Rin,rout)
-
-        # plt.style.use('./diskpic.mplstyle')
-
 
         disco.get_disk_shape(R)
         disco.get_disk_temperature(R)
