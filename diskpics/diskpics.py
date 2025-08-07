@@ -131,10 +131,20 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     # plt.style.use('./diskpic.mplstyle')
 
+    if disco.type == 'bh':
+        circle = plt.Circle((0, 0), 1, color='k')
+    else:
+        circle = plt.Circle((0, 0), 1, color='orange')
+        
+    plt.gca().add_patch(circle)
+    plt.gca().set_aspect('equal')
+
 
     disco.get_disk_shape(R)
     disco.get_disk_temperature(R)
 
     plt.plot(R/disco.radius,disco.scale_height)
+
+    plt.xlim(0/R/disco.radius[-1])
 
     plt.show()
