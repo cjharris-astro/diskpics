@@ -15,31 +15,13 @@ def test_bh():
     
     R_expected = np.linspace(rin_expected.value, 5*rin_expected.value)
 
-    temp_expected = np.array([      0.        , 5062535.62832682, 5622699.23576385,
-       5838058.98984919, 5909294.82074894, 5906389.183052  ,
-       5861812.90711403, 5792891.50286132, 5709662.9964169 ,
-       5618259.18102688, 5522559.6327314 , 5425075.77568527,
-       5327455.04522199, 5230782.93403628, 5135771.0780483 ,
-       5042878.05870043, 4952388.96785674, 4864468.90678366,
-       4779199.57768949, 4696604.66571259, 4616667.64878852,
-       4539344.40968534, 4464572.23028299, 4392276.23761427,
-       4322374.03649397, 4254779.04032343, 4189402.86043243,
-       4126157.01044898, 4064954.10994499, 4005708.72079232,
-       3948337.91355782, 3892761.63537281, 3838902.93198788,
-       3786688.06308163, 3736046.53988374, 3686911.10678697,
-       3639217.68314097, 3592905.27733445, 3547915.88221147,
-       3504194.35856872, 3461688.31174738, 3420347.96502448,
-       3380126.03251835, 3340977.5935733 , 3302859.97002097,
-       3265732.60728649, 3229556.95998402, 3194296.38240229,
-       3159916.02409862, 3126382.730685  ])
-    
+    temp_expected = 4222090.95037793
 
     BH = dp.CentralObject('bh', mass=mbh_expected)
     mbh = BH.mass
     mdot = BH.mdot
-    temp = bh.get_DiskTemp(R_expected, mbh.value, mdot)
+    med_temp = np.median(bh.get_DiskTemp(R_expected, mbh_expected.value, mdot_expected))
 
     assert mbh.value == pt.approx(mbh_expected.value, abs=0.2*mbh_expected.value)
-    assert mdot == pt.approx(mdot_expected, abs=0.2*mdot_expected)
-    # assert temp == pt.approx(temp_expected, abs=temp_expected*0.2)
-
+    assert mdot.value == pt.approx(mdot_expected, abs=0.2*mdot_expected)
+    assert med_temp == pt.approx(temp_expected, abs=0.2*temp_expected)
