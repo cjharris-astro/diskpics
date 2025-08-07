@@ -7,7 +7,7 @@ import diskpics.diskpics.diskpics as dp
 # order of magnitudes, height, realistic mdot, accretion luminosity,
 # 
 
-def test_units():
+def test_input_units():
     """
     Test that will check if a input physical parameters have the right units
     """
