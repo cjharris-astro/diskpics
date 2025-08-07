@@ -9,7 +9,7 @@ def get_Lstar(radius,temp):
       return 4*np.pi*(radius*u.Rsun.cgs)**2 * sig_sb * (temp)**4
 
 def get_Lacc(mass,radius,mdot):
-    return con.G * mass*u.Msun.cgs * (mdot*(u.Msun.cgs/con.yr.cgs)/(radius*u.Rsun.cgs))
+    return con.G * mass*u.Msun.cgs * (mdot*(u.Msun.cgs/u.yr.cgs)/(radius*u.Rsun.cgs))
 
 def get_Rsub(Lstar,Lacc, Tsub = 1500*u.K):
         return np.sqrt( (Lstar+Lacc)*u.Lsun.cgs / (4*np.pi *Tsub) )
