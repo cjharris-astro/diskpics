@@ -143,12 +143,14 @@ def plot_disk(disco,rout=1.*u.Rsun):
     disco.get_disk_shape(R)
     disco.get_disk_temperature(R)
 
-    plt.plot(R/disco.radius, disco.scale_height/disco.radius)
+    plt.plot(R/disco.radius, disco.scale_height/R)
 
     # plt.xlim(0,max(R/disco.radius))
     plt.xlabel(r'$\rm R/R_{obj}$')
-    plt.ylabel(r'$\rm H/R_{obj}$')
+    plt.ylabel(r'$\rm H/R$')
 
+    plt.ylim(0,max(disco.scale_height/R))
+    plt.xlim(0,max(R/disco.radius))
 
     # plt.gca().set_aspect('equal')
     plt.show()
