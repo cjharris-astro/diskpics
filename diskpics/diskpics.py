@@ -109,14 +109,14 @@ class Disk(CentralObject):
         if self.type == 'bh':
             self.tdisk = bh.get_DiskTemp(R, self.mass.cgs.value, self.mdot.value) *u.K
         else:
-            self.tdisk = yso.temp(self)
+            self.tdisk = yso.flared_temp_distribution(self.Lstar.to(u.Lsun),self.radius.to(u.Rsun),self.mass.to(u.Msun),R)
 
 
     def get_disk_shape(self,R):
         if self.type == 'bh':
             self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs.value, mdot = self.mdot.value) *u.cm
         else:
-            self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
+            self.scale_height = yso.flared_disk_ScaleHeight(self.mass.to(u.Msun),R,self.tdisk.to(u.K))
         
     
 
@@ -183,7 +183,7 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
     plt.yticks(fontsize=12)
 
     plt.gca().set_facecolor('none')
-    
+
     plt.gca().spines['top'].set_visible(False)
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['bottom'].set_linewidth(2) 
