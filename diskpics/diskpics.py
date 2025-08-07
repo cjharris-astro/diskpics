@@ -116,7 +116,7 @@ class Disk(CentralObject):
         if self.type == 'bh':
             self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs.value, mdot = self.mdot.value) *u.cm
         else:
-            self.scale_height = yso.flared_disk_ScaleHeight(self.mass.to(u.Msun),R,self.tdisk.to(u.K))
+            self.scale_height = yso.flared_disk_ScaleHeight(self.mass.to(u.Msun),R,self.tdisk)
         
     
 
