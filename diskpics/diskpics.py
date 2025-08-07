@@ -143,7 +143,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
         print(f'Potting your {disco.type}')
 
-        R = np.linspace(disco.Rin,rout)
+        R = np.linspace(disco.Rin.cgs,rout.cgs)
 
         disco.get_disk_shape(R)
         disco.get_disk_temperature(R)
@@ -185,6 +185,9 @@ def plot_disk(disco,rout=1.*u.Rsun):
         plt.ylim(0,max(yaxis))
         plt.xlim(0,max(xaxis))
 
+
+        plt.gca().spines['top'].set_visible(False)
+        plt.gca().spines['right'].set_visible(False)
         # plt.semilogy()
         # plt.gca().set_aspect('equal')
         plt.show()
