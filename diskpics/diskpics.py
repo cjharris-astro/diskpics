@@ -149,10 +149,10 @@ def plot_disk(disco,rout=1.*u.Rsun):
     # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
     circle_r = 1
     if disco.type == 'bh':
-        normalize =  mpl.colors.LogNorm(vmin=min(disco.tdisk), vmax=max(disco.tdisk))
+        normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.tdisk))
         circle = plt.Circle((0, 0), circle_r, color='k')
     else:
-        normalize =  mpl.colors.LogNorm(vmin=min(disco.tdisk), vmax=max(disco.temp))
+        normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.temp))
         circle = plt.Circle((0, 0), circle_r, color=disco.temp)
 
     plt.gca().add_patch(circle)
