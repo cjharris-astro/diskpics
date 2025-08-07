@@ -11,6 +11,12 @@ class CentralObject(object):
     """
     Central object to the accretion disk
     """
+    "Enable unit check"
+    @u.quantity_input(mass='mass')
+    @u.quantity_input(mdot=['mass','time'])
+    @u.quantity_input(radius='length')
+    @u.quantity_input(radius=u.K)
+
     def __init__(self,type,mass,mdot=1.*u.Msun/u.yr,radius = 1.*u.Rsun, temp = 1.*u.K, magnetosphere = False, ):
 
         """Obligatory variables """
