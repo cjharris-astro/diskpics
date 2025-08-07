@@ -17,14 +17,15 @@ def test_input_units():
     temp_expected = "object effective temperature must be a Quantity (uses astropy units) of the physical type temperature"
     radius_expected = "object radius must be a Quantity (uses astropy units) of the physical type length"
 
-    mass_test = dp.CentralObject('bh', mass=5*u.K)
-    mdot_test = dp.CentralObject('bh', mass=5*u.g, mdot = 10*u.g)
-    temp_test = dp.CentralObject('bh', mass=5*u.g,  temp = 3*u.s )
-    radius_test = dp.CentralObject('bh', mass=5*u.g, radius = 4*u.erg )
+    with pt.raises(ValueError,match=mass_expected):
+        dp.CentralObject('bh', mass=5*u.K)
 
-    assert mass_test == pt.raises(ValueError, match=mass_expected)
-    assert mdot_test == pt.raises(ValueError, match=mdot_expected)
-    assert temp_test == pt.raises(ValueError, match=temp_expected)
-    assert radius_test == pt.raises(ValueError, match=radius_expected)
+    with pt.raises(ValueError, match=mdot_expected):
+        dp.CentralObject('bh', mass=5*u.g, mdot = 10*u.g)
 
+    with pt.raises(ValueError, match=temp_expected):
+        dp.CentralObject('bh', mass=5*u.g,  temp = 3*u.s )
+
+    with pt.raises(ValueError, match=radius_expected):
+        dp.CentralObject('bh', mass=5*u.g, radius = 4*u.erg )
 
