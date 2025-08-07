@@ -49,7 +49,7 @@ class CentralObject(object):
         elif radius.value == 1:
             print('Usind Default values for radius. if BH this is the Schwartzchild Radius. If object is a YSO, default value is 1 Rsun')
             if self.type == 'bh':
-                self.radius = bh.get_SchwartzchildRadius(self.mass.cgs.value)
+                self.radius = bh.get_SchwartzchildRadius(self.mass.cgs.value) *u.cm
             else:
                 self.radius = radius
         else:
@@ -135,9 +135,10 @@ def plot_disk(disco,rout=1.*u.Rsun):
     disco.get_disk_shape(R)
     disco.get_disk_temperature(R)
 
-    plt.plot(R/disco.radius, (disco.scale_height*u.cm).to(u.au))
+    plt.plot(R/disco.radius.value, (disco.scale_height*u.cm).to(u.au))
 
-    circle_r = np.sqrt(1**2+((disco.radius*u.cm).to(u.au).value)**2)
+
+    circle_r = np.sqrt(1**2+(disco.radius.to(u.au).value)**2)
     if disco.type == 'bh':
         circle = plt.Circle((0, 0), circle_r, color='k')
     else:
