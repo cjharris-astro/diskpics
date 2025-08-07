@@ -59,7 +59,7 @@ class CentralObject(object):
         elif radius.value <=0:
             raise ValueError("Object radius must be greater than 0")
         elif radius.value == 1:
-            print('Usind Default values for radius. if BH this is the Schwartzchild Radius. If object is a YSO, default value is 1 Rsun')
+            print('Usind default values for radius. If BH this is the Schwartzchild Radius. If object is a YSO, default value is 1 Rsun')
             if self.type == 'bh':
                 self.radius = bh.get_SchwartzchildRadius(self.mass.cgs.value) *u.cm
             else:
@@ -149,12 +149,12 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
     if not isinstance(rout, Quantity):
             raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
     elif rout.value == 1:
-        print("Using default velue for the outer radius of the disk. Rout = 5 Rin")
+        print("Using default value for the outer radius of the disk. Rout = 5 Rin")
         rout = 5*disco.Rin
     else:
         rout = rout
 
-    print(f'Potting your {disco.type}')
+    print(f'Plotting your {disco.type}')
 
     R = np.linspace(disco.Rin.cgs,rout.cgs)
 
