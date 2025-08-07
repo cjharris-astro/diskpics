@@ -100,21 +100,21 @@ class Disk(CentralObject):
 
     def get_inner_radii(self):
         if self.type == 'bh':
-            self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass.cgs.value) 
+            self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass.cgs.value) *u.cm
         else:
             self.Rin = yso.get_Rsub(self.Lstar.to(u.Lsun),self.Lacc.to(u.Lsun))
 
 
     def get_disk_temperature(self,R):
         if self.type == 'bh':
-            self.tdisk = bh.get_DiskTemp(R, self.mass.cgs.value, self.mdot.value)
+            self.tdisk = bh.get_DiskTemp(R, self.mass.cgs.value, self.mdot.value) *u.K
         else:
             self.tdisk = yso.temp(self)
 
 
     def get_disk_shape(self,R):
         if self.type == 'bh':
-            self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs.value, mdot = self.mdot.value)
+            self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs.value, mdot = self.mdot.value) *u.cm
         else:
             self.scale_height = yso.get_flared_disk(self,R) #ADD NECESARY PARAM
         
@@ -148,8 +148,8 @@ def plot_disk(disco,rout=1.*u.Rsun):
         disco.get_disk_shape(R)
         disco.get_disk_temperature(R)
 
-        yaxis = disco.scale_height/disco.radius.value
-        xaxis = R/disco.radius.value
+        yaxis = disco.scale_height/disco.radius
+        xaxis = R/disco.radius
         plt.plot(xaxis, yaxis, c= 'k')
 
         disco.get_disk_temperature(R)
@@ -161,16 +161,16 @@ def plot_disk(disco,rout=1.*u.Rsun):
         # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
         circle_r = 1
         if disco.type == 'bh':
-            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.tdisk))
+            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk.value), vmax=max(disco.tdisk.value))
             circle = plt.Circle((0, 0), circle_r, color='k')
         else:
-            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.temp))
+            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk.value), vmax=max(disco.temp.value))
             circle = plt.Circle((0, 0), circle_r, color=disco.temp)
 
         plt.gca().add_patch(circle)
         
         for i in range(len(R) - 1):
-            color_val = disco.tdisk[i]
+            color_val = disco.tdisk[i].value
             color = cmap(normalize(color_val))
             plt.fill_between(xaxis[i:i+2], yaxis[i:i+2], color=color)
             # plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
