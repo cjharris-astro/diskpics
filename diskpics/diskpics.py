@@ -135,12 +135,12 @@ def plot_disk(disco,rout=1.*u.Rsun):
     disco.get_disk_shape(R)
     disco.get_disk_temperature(R)
 
-    plt.plot(R/disco.radius.value, disco.scale_height)
+    plt.plot(R/disco.radius.value, disco.scale_height/disco.radius.value)
 
 
     # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
-    circle_r = np.sqrt((1)**2 + (1e5)**2)
-
+    # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
+    circle_r = 1
     if disco.type == 'bh':
         circle = plt.Circle((0, 0), circle_r, color='k')
     else:
@@ -153,7 +153,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     # plt.xlim(0,max(R/disco.radius))
     plt.xlabel(r'$\rm R/R_{obj}$')
-    plt.ylabel(r'$\rm H (cm)$')
+    plt.ylabel(r'$\rm H/R_{obj}$')
 
     plt.ylim(0,max(disco.scale_height))
     plt.xlim(0,max(R/disco.radius.value))
