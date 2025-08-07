@@ -18,10 +18,9 @@ def get_Rsub(Lstar, Tsub = 1500*u.K):
 def magnetosphere():
     return print("Moduled under construction")
 
-def flared_temp_distribution(Lstar,Rstar,Mstar,Rarray):
+def flared_temp_distribution(Lstar,Mstar,Rarray):
     Rarray = Rarray*u.cm
     Ls = Lstar.cgs
-    Rs = Rstar.cgs
     sigma_sb = con.sigma_sb.cgs
     K_b = con.k_B.cgs
     mu = 2.3
@@ -29,7 +28,7 @@ def flared_temp_distribution(Lstar,Rstar,Mstar,Rarray):
     G = con.G.cgs
     Ms = Mstar.cgs
 
-    one = (Ls/(4*np.pi*Rs**2*sigma_sb))**2
+    one = (Ls/(4*np.pi*Rarray**2*sigma_sb))**2
     two = K_b/(mu*mh)
     three = Rarray/(G*Ms)
 

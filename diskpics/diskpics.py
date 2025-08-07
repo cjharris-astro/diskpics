@@ -109,7 +109,7 @@ class Disk(CentralObject):
         if self.type == 'bh':
             self.tdisk = bh.get_DiskTemp(R, self.mass.cgs.value, self.mdot.value) *u.K
         else:
-            self.tdisk = yso.flared_temp_distribution(self.Lstar.to(u.Lsun),self.radius.to(u.Rsun),self.mass.to(u.Msun),R)
+            self.tdisk = yso.flared_temp_distribution(self.Lstar.to(u.Lsun),self.mass.to(u.Msun),R)
 
 
     def get_disk_shape(self,R):
