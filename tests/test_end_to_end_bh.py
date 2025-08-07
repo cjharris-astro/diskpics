@@ -1,7 +1,8 @@
 import pytest as pt
 import astropy.units as u
 import numpy as np
-import diskpics.diskpics.bh_utils as dp
+import diskpics.diskpics.bh_utils as bh
+import diskpics.diskpics.diskpics as dp
 
 def test_bh():
     """
