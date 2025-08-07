@@ -93,10 +93,6 @@ class CentralObject(object):
 
 class Disk(CentralObject):
 
-    # def __init__(self,central_object):
-        
-    # if isinstance(type(CentralObject), CentralObject):
-        # raise TypeError("central_object but be a CentralObject type")
 
     def get_inner_radii(self):
         if self.type == 'bh':
@@ -121,9 +117,6 @@ class Disk(CentralObject):
     
 
 def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
-
-    # plt.style.use(f'{os.getcwd()}/diskpic.mplstyle')
-    # with plt.xkcd():
 
     plt.figure(figsize=(10,2.5))
 
@@ -153,16 +146,13 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
 
     cmap =  mpl.cm.get_cmap(cmap)
 
-
-    # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
-    # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
     circle_r = 1
     if disco.type == 'bh':
-        normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk.value), vmax=max(disco.tdisk.value))
+        normalize =  mpl.colors.LogNorm(vmin=min(disco.tdisk.value), vmax=max(disco.tdisk.value))
         circle = plt.Circle((0, 0), circle_r, color='k')
     else:
-        normalize =  mpl.colors.LogNorm(vmin=min(disco.tdisk.value), vmax=disco.temp.value)
-        circle = plt.Circle((0, 0), circle_r, color=cmap(normalize(disco.temp.value)))
+        normalize =  mpl.colors.LogNorm(vmin=min(disco.tdisk.value), vmax=max(disco.tdisk.value))
+        circle = plt.Circle((0, 0), circle_r, color='orange') #cmap(normalize(disco.temp.value))
 
     plt.gca().add_patch(circle)
     
@@ -170,10 +160,8 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
         color_val = disco.tdisk[i].value
         color = cmap(normalize(color_val))
         plt.fill_between(xaxis[i:i+2], yaxis[i:i+2], color=color)
-        # plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
+ 
 
-
-    # plt.xlim(0,max(R/disco.radius))
     plt.xlabel(r'$\rm R/R_{obj}$',fontsize=16)
     plt.ylabel(r'$\rm H/R_{obj}$',fontsize=16)
 
