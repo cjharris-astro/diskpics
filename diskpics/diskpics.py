@@ -162,7 +162,7 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
         circle = plt.Circle((0, 0), circle_r, color='k')
     else:
         normalize =  mpl.colors.LogNorm(vmin=min(disco.tdisk.value), vmax=disco.temp.value)
-        circle = plt.Circle((0, 0), circle_r, color=disco.temp)
+        circle = plt.Circle((0, 0), circle_r, color=disco.temp.value)
 
     plt.gca().add_patch(circle)
     
