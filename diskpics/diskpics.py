@@ -138,7 +138,8 @@ def plot_disk(disco,rout=1.*u.Rsun):
     disco.get_disk_temperature(R)
 
     yaxis = disco.scale_height/disco.radius.value
-    plt.plot(R/disco.radius.value, yaxis, c= 'k')
+    xaxis = R/disco.radius.value
+    plt.plot(xaxis, yaxis, c= 'k')
 
     disco.get_disk_temperature(R)
 
@@ -160,7 +161,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
     for i in range(len(R) - 1):
         color_val = disco.tdisk[i]
         color = cmap(normalize(color_val))
-        plt.fill_between(R[i:i+2], yaxis[i:i+2], color=color)
+        plt.fill_between(xaxis[i:i+2], yaxis[i:i+2], color=color)
         # plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
 
 
@@ -170,8 +171,8 @@ def plot_disk(disco,rout=1.*u.Rsun):
     plt.xlabel(r'$\rm R/R_{obj}$')
     plt.ylabel(r'$\rm H/R_{obj}$')
 
-    plt.ylim(0,max(disco.scale_height/disco.radius.value))
-    plt.xlim(0,max(R/disco.radius.value))
+    plt.ylim(0,max(yaxis))
+    plt.xlim(0,max(xaxis))
 
     # plt.semilogy()
     # plt.gca().set_aspect('equal')
