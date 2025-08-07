@@ -7,6 +7,15 @@ from astropy import constants as const
 
 sigma_sb = const.sigma_sb.cgs.value
 def inner_radius(Lsun,T_sub):
+    """Defines the inner radius of YSO disk based on sublimation temperature and luminosity
+
+    Args:
+        Lsun (float): Luminosity of the star in L_sun
+        T_sub (float): Sublimation temperature. Typically 1500 K
+
+    Returns:
+        _type_: _description_
+    """
     sigma_sb = const.sigma_sb.cgs
     Ls = const.L_sun.cgs *Lsun
     T_sub = T_sub*u.K

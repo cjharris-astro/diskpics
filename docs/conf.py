@@ -4,7 +4,18 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../diskpics/'))
+basepath = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+print(basepath)
+print(basepath)
+print(basepath)
+print(basepath)
+print(basepath)
+print(basepath)
+print(basepath)
+print(basepath)
+#raise Exception(ValueError)
+sys.path.insert(0, basepath)
+
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
@@ -17,7 +28,7 @@ release = 'v0.2.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx.ext.autodoc","sphinx.ext.napoleon"]
+extensions = ["sphinx.ext.autodoc","sphinx.ext.napoleon","sphinx.ext.autosummary","sphinx.ext.viewcode"]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
