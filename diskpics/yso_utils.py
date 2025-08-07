@@ -28,6 +28,9 @@ def flared_temp_distribution(Lstar,Mstar,Rarray):
     G = con.G.cgs
     Ms = Mstar.cgs
 
+    print(Ms)
+    print(Rarray)
+
     one = (Ls/(4*np.pi*Rarray**2*sigma_sb))**2
     two = K_b/(mu*mh)
     three = Rarray/(G*Ms)

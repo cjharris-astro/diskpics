@@ -31,7 +31,9 @@ def flared_temp_distribution(Lsun,Rsun,Msun,Rarray):
     one = (Ls/(4*np.pi*Rs**2*sigma_sb))**2
     two = K_b/(mu*mh)
     three = Rarray/(G*Ms)
+
     Td = (one*two*three)**(1/7)
+    
     cs = np.sqrt((K_b*Td)/(mu*mh))
     v_k = np.sqrt(G*Ms/Rarray)
     H = cs/v_k*Rarray
