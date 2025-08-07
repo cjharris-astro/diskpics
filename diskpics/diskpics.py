@@ -140,7 +140,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
 
     disco.get_disk_temperature(R)
 
-    plt.fill_between(R,yaxis,c=disco.tdisk,cmap = 'Spectral')
+    plt.fill_between(R,yaxis,color=disco.tdisk,cmap = 'Spectral')
 
     # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
     # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
