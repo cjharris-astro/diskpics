@@ -13,7 +13,7 @@ def get_Lacc(mass,radius,mdot):
 
 def get_Rsub(Lstar, Tsub = 1500*u.K):
         # return np.sqrt( (Lstar.cgs+Lacc.cgs)/ (4*np.pi *Tsub) )
-        return np.sqrt( (Lstar.cgs)/ (4*np.pi*sig_sb**Tsub) ).decompose()
+        return np.sqrt( (Lstar.cgs)/ (4*np.pi*sig_sb*Tsub**4) )
 
 def magnetosphere():
     return print("Moduled under construction")
