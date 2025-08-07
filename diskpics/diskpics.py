@@ -120,8 +120,8 @@ def plot_disk(disco,rout=1.*u.Rsun):
     if not isinstance(rout, Quantity):
             raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
     elif rout.value == 1:
-        print("Using default velue for the outer radius of the disk. Rout = 10 Rin")
-        rout = 10*disco.Rin
+        print("Using default velue for the outer radius of the disk. Rout = 5 Rin")
+        rout = 5*disco.Rin
     else:
         rout = rout
 
@@ -135,8 +135,12 @@ def plot_disk(disco,rout=1.*u.Rsun):
     disco.get_disk_shape(R)
     disco.get_disk_temperature(R)
 
-    plt.plot(R/disco.radius.value, disco.scale_height/disco.radius.value)
+    yaxis = disco.scale_height/disco.radius.value
+    plt.plot(R/disco.radius.value, yaxis, c= 'k')
 
+    disco.get_disk_temperature(R)
+
+    plt.fill_between(R,yaxis,c=disco.tdisk,cmap = 'Spectral')
 
     # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
     # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
