@@ -186,8 +186,6 @@ def plot_disk(disco,rout=1.*u.Rsun):
         plt.xlim(0,max(xaxis))
 
 
-        plt.gca().spines['top'].set_visible(False)
-        plt.gca().spines['right'].set_visible(False)
-        # plt.semilogy()
-        # plt.gca().set_aspect('equal')
-        plt.show()
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().spines['right'].set_visible(False)
+    plt.show()
