@@ -112,7 +112,7 @@ class Disk(CentralObject):
 
 def plot_disk(disco,rout=1.*u.Rsun):
 
-    plt.style.use(f'{os.getcwd()}/diskpic.mplstyle')
+    # plt.style.use(f'{os.getcwd()}/diskpic.mplstyle')
     with plt.xkcd():
 
         plt.figure(figsize=(10,2.5))
