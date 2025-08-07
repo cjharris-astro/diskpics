@@ -34,7 +34,7 @@ def get_InnermostCircularStableOrbit(mbh, spin=False):
 
 def get_DiskTemp(rads, mbh, mdot):
     rs = get_SchwartzchildRadius(mbh)
-    p1 = 3 * c.G * mbh * mdot
+    p1 = 3 * c.G * mbh * mdot*(c.Msun/c.yr)
     p2 = 8 * np.pi * c.sig_sb * rads**3
     p3 = 1-(rs/rads)**(1/2)
     
