@@ -153,7 +153,7 @@ def plot_disk(disco,rout=1.*u.Rsun):
     plt.xlabel(r'$\rm R/R_{obj}$')
     plt.ylabel(r'$\rm H (au)$')
 
-    plt.ylim(0,max((disco.scale_height*u.cm).to(u.au)))
+    plt.ylim(0,max((disco.scale_height*u.cm).to(u.au).value))
     plt.xlim(0,max(R/disco.radius))
 
     # plt.gca().set_aspect('equal')
