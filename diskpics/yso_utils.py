@@ -18,7 +18,7 @@ def magnetosphere():
     return print("Moduled under construction")
 
 def flared_temp_distribution(Lstar,Rstar,Mstar,Rarray):
-    Rarray = Rarray
+    Rarray = Rarray*u.cm
     Ls = Lstar.cgs
     Rs = Rstar.cgs
     sigma_sb = con.sigma_sb.cgs
