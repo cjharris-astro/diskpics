@@ -13,6 +13,8 @@ class CentralObject(object):
     """
     "Enable unit check"
 
+   
+
     def __init__(self,type,mass,mdot=1.*u.Msun/u.yr,radius = 1.*u.Rsun, temp = 1.*u.K, magnetosphere = False, ):
 
         """Obligatory variables """
@@ -95,6 +97,8 @@ class Disk(CentralObject):
 
 
     def get_inner_radii(self):
+        """ges Innermost Circular Stable Orbit for BH or Sublimation radius for YSO
+        """
         if self.type == 'bh':
             self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass.cgs.value) *u.cm
         else:
@@ -102,6 +106,11 @@ class Disk(CentralObject):
 
 
     def get_disk_temperature(self,R):
+        """Defines the disk temperature for a BH or YSO
+
+        Args:
+            R (array): array of radii
+        """
         if self.type == 'bh':
             self.tdisk = bh.get_DiskTemp(R, self.mass.cgs.value, self.mdot.value) *u.K
         else:
@@ -109,6 +118,11 @@ class Disk(CentralObject):
 
 
     def get_disk_shape(self,R):
+        """Scale height for BH and flared disk for YSO
+
+        Args:
+            R (array): Array of Radii
+        """
         if self.type == 'bh':
             self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs.value, mdot = self.mdot.value) *u.cm
         else:
@@ -117,6 +131,16 @@ class Disk(CentralObject):
     
 
 def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
+ """Plot Disks
+
+    Args:
+        disco (float): Inner disk radius
+        rout (float, optional): Outer disk radius. Defaults to 1.*u.Rsun.
+        cmap (str, optional): Color map. Defaults to 'Spectral_r'.
+
+    Raises:
+        ValueError: object Rdisk must be a Quantity
+    """
 
     plt.figure(figsize=(10,2.5))
 
