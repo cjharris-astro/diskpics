@@ -30,11 +30,15 @@ class CentralObject(object):
 
         if not isinstance(mass, Quantity):
             raise ValueError("object mass must be a Quantity (uses astropy units) ")
+        elif mass.value <=0:
+            raise ValueError("Object Mass must be greater than 0")
         else:
             self.mass = mass
 
         if not isinstance(mdot, Quantity):
-            raise ValueError("object accretion rate must be a Quantity (uses astropy units) ")
+            raise ValueError("Accretion rate must be a Quantity (uses astropy units) ")
+        elif mdot.value <=0:
+            raise ValueError("Accretion rate must be a positive number greater than 0. You may have entered Log(accrition rate)")
         elif mdot.value ==1. :
             print('Using typical values for mdot. if object is a yso then mdot = 1e-8 Msun/yr, if object is a black hole then mdot is 10^(-8.5)Msun/yr')
             if self.type == 'bh':
@@ -48,6 +52,8 @@ class CentralObject(object):
 
         if not isinstance(radius, Quantity):
             raise ValueError("object accretion rate must be a Quantity (uses astropy units) ")
+        elif radius.value <=0:
+            raise ValueError("Object radius must be greater than 0")
         elif radius.value == 1:
             print('Usind Default values for radius. if BH this is the Schwartzchild Radius. If object is a YSO, default value is 1 Rsun')
             if self.type == 'bh':
@@ -60,6 +66,8 @@ class CentralObject(object):
 
         if not isinstance(temp, Quantity):
             raise ValueError("object accretion rate must be a Quantity (uses astropy units) ")
+        elif temp.value <=0:
+            raise ValueError("Object effective temperature must be greater than 0")
         else:
             if self.type != 'bh' and temp.value == 1.:
                 print('Using default Teff for YSO of 4000 K')
