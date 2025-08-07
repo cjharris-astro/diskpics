@@ -18,7 +18,7 @@ class CentralObject(object):
         """Obligatory variables """
 
         if not isinstance(type, str):
-            raise TypeError("object type must be one of this str: 'BH', 'TTauri', 'Herbig' ")
+            raise TypeError("Object type must be one of this str: 'BH', 'TTauri', 'Herbig' ")
         
         type = type.lower()
         type = type.replace('-','')
@@ -31,14 +31,14 @@ class CentralObject(object):
             self.type = type
 
         if not (isinstance(mass, Quantity) and mass.unit.is_equivalent(u.g)):
-            raise ValueError("object mass must be a Quantity (uses astropy units) of the physical type mass")
+            raise ValueError("Object mass must be a Quantity (uses astropy units) of the physical type mass")
         elif mass.value <=0:
             raise ValueError("Object Mass must be greater than 0")
         else:
             self.mass = mass
 
         if not (isinstance(mdot, Quantity) and mdot.unit.is_equivalent(u.g/u.s)):
-            raise ValueError("Accretion rate must be a Quantity (uses astropy units) of the physical type mass/time ")
+            raise ValueError("Accretion rate must be a Quantity (uses astropy units) of the physical type mass/time")
         elif mdot.value <=0:
             raise ValueError("Accretion rate must be a positive number greater than 0. You may have entered Log(accrition rate)")
         elif mdot.value ==1. :
@@ -53,7 +53,7 @@ class CentralObject(object):
         "Required only if type is T Tauri or Herbig"
 
         if not (isinstance(radius, Quantity) and radius.unit.is_equivalent(u.m)):
-            raise ValueError("object accretion rate must be a Quantity (uses astropy units) of the physical type length")
+            raise ValueError("object radius must be a Quantity (uses astropy units) of the physical type length")
         elif radius.value <=0:
             raise ValueError("Object radius must be greater than 0")
         elif radius.value == 1:
@@ -67,7 +67,7 @@ class CentralObject(object):
 
 
         if not (isinstance(temp, Quantity) and temp.unit.is_equivalent(u.K) ):
-            raise ValueError("object accretion rate must be a Quantity (uses astropy units) of the physical type temperature ")
+            raise ValueError("object effective temperature must be a Quantity (uses astropy units) of the physical type temperature")
         elif temp.value <=0:
             raise ValueError("Object effective temperature must be greater than 0")
         else:
