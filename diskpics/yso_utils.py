@@ -35,7 +35,7 @@ def flared_temp_distribution(Lstar,Mstar,Rarray):
     Td = (one*two*three)**(1/7)
 
     # return Td.cgs
-    return Ls.value**(2/7)*(Rarray.value)**(-3/7)
+    return Ls**(2/7)*(Rarray)**(-3/7)
 
 def flared_disk_ScaleHeight(Mstar,Rarray,Tdisk):
 
