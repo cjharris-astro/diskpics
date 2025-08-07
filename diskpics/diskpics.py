@@ -120,8 +120,8 @@ def plot_disk(disco,rout=1.*u.Rsun):
     if not isinstance(rout, Quantity):
             raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
     elif rout.value == 1:
-        print("Using default velue for the outer radius of the disk. Rout = 5 Rin")
-        rout = 5*disco.Rin
+        print("Using default velue for the outer radius of the disk. Rout = 10 Rin")
+        rout = 10*disco.Rin
     else:
         rout = rout
 
