@@ -110,70 +110,72 @@ class Disk(CentralObject):
     
 
 def plot_disk(disco,rout=1.*u.Rsun):
-
-    plt.figure(figsize=(10,2.5))
-    # if isinstance(type(thing), CentralObject):
-    #     raise TypeError("central_object but be a CentralObjecy type")
-    # else:  
-    #     disco = Disk(thing)
-
-    disco.get_inner_radii()
-
-    if not isinstance(rout, Quantity):
-            raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
-    elif rout.value == 1:
-        print("Using default velue for the outer radius of the disk. Rout = 5 Rin")
-        rout = 5*disco.Rin
-    else:
-        rout = rout
-
-    print(f'Potting your {disco.type}')
-
-    R = np.linspace(disco.Rin,rout)
-
-    # plt.style.use('./diskpic.mplstyle')
-
-
-    disco.get_disk_shape(R)
-    disco.get_disk_temperature(R)
-
-    yaxis = disco.scale_height/disco.radius.value
-    xaxis = R/disco.radius.value
-    plt.plot(xaxis, yaxis, c= 'k')
-
-    disco.get_disk_temperature(R)
-
-    cmap =  mpl.cm.get_cmap('Spectral_r')
-
-   
-    # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
-    # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
-    circle_r = 1
-    if disco.type == 'bh':
-        normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.tdisk))
-        circle = plt.Circle((0, 0), circle_r, color='k')
-    else:
-        normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.temp))
-        circle = plt.Circle((0, 0), circle_r, color=disco.temp)
-
-    plt.gca().add_patch(circle)
     
-    for i in range(len(R) - 1):
-        color_val = disco.tdisk[i]
-        color = cmap(normalize(color_val))
-        plt.fill_between(xaxis[i:i+2], yaxis[i:i+2], color=color)
-        # plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
+    with plt.xkcd():
+
+        plt.figure(figsize=(10,2.5))
+        # if isinstance(type(thing), CentralObject):
+        #     raise TypeError("central_object but be a CentralObjecy type")
+        # else:  
+        #     disco = Disk(thing)
+
+        disco.get_inner_radii()
+
+        if not isinstance(rout, Quantity):
+                raise ValueError("object Rdisk must be a Quantity (uses astropy units) ")
+        elif rout.value == 1:
+            print("Using default velue for the outer radius of the disk. Rout = 5 Rin")
+            rout = 5*disco.Rin
+        else:
+            rout = rout
+
+        print(f'Potting your {disco.type}')
+
+        R = np.linspace(disco.Rin,rout)
+
+        # plt.style.use('./diskpic.mplstyle')
+
+
+        disco.get_disk_shape(R)
+        disco.get_disk_temperature(R)
+
+        yaxis = disco.scale_height/disco.radius.value
+        xaxis = R/disco.radius.value
+        plt.plot(xaxis, yaxis, c= 'k')
+
+        disco.get_disk_temperature(R)
+
+        cmap =  mpl.cm.get_cmap('Spectral_r')
+
+    
+        # circle_r = np.sqrt((1)**2 + (disco.radius.value)**2)
+        # circle_r = np.sqrt((1)**2 + (disco.radius.to(u.km).value)**2)
+        circle_r = 1
+        if disco.type == 'bh':
+            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.tdisk))
+            circle = plt.Circle((0, 0), circle_r, color='k')
+        else:
+            normalize =  mpl.colors.Normalize(vmin=min(disco.tdisk), vmax=max(disco.temp))
+            circle = plt.Circle((0, 0), circle_r, color=disco.temp)
+
+        plt.gca().add_patch(circle)
+        
+        for i in range(len(R) - 1):
+            color_val = disco.tdisk[i]
+            color = cmap(normalize(color_val))
+            plt.fill_between(xaxis[i:i+2], yaxis[i:i+2], color=color)
+            # plt.fill_between(R,yaxis,color=cmap(normalize(disco.tdisk)),zorder=0)
 
 
 
 
-    # plt.xlim(0,max(R/disco.radius))
-    plt.xlabel(r'$\rm R/R_{obj}$')
-    plt.ylabel(r'$\rm H/R_{obj}$')
+        # plt.xlim(0,max(R/disco.radius))
+        plt.xlabel(r'$\rm R/R_{obj}$')
+        plt.ylabel(r'$\rm H/R_{obj}$')
 
-    plt.ylim(0,max(yaxis))
-    plt.xlim(0,max(xaxis))
+        plt.ylim(0,max(yaxis))
+        plt.xlim(0,max(xaxis))
 
-    # plt.semilogy()
-    # plt.gca().set_aspect('equal')
-    plt.show()
+        # plt.semilogy()
+        # plt.gca().set_aspect('equal')
+        plt.show()
