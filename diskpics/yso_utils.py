@@ -37,7 +37,7 @@ def flared_temp_distribution(Lstar,Mstar,Rarray):
     # return Td.cgs
     return Ls**(2/7)*(Rarray)**(-3/7)
 
-def flared_disk_ScaleHeight(Mstar,Rarray,Tdisk):
+def flared_disk_ScaleHeight(Mstar,Rarray,Tdisk.value):
 
     Rarray = Rarray*u.cm
     mu = 2.3
@@ -45,6 +45,7 @@ def flared_disk_ScaleHeight(Mstar,Rarray,Tdisk):
     G = con.G.cgs
     Ms = Mstar.cgs
     K_b = con.k_B.cgs
+    Tdisk = Tdisk *u.K
 
     cs = np.sqrt((K_b*Tdisk)/(mu*mh))
 
