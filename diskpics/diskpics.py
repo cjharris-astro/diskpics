@@ -5,6 +5,7 @@ import diskpics.diskpics.bh_utils as bh
 from astropy import units as u
 from astropy.units import Quantity
 import matplotlib as mpl
+import os
 
 class CentralObject(object):
     """
@@ -111,7 +112,7 @@ class Disk(CentralObject):
 
 def plot_disk(disco,rout=1.*u.Rsun):
 
-    plt.style.use('./diskpic/diskpic.mplstyle')
+    plt.style.use(f'{os.getcwd()}/diskpic.mplstyle')
     with plt.xkcd():
 
         plt.figure(figsize=(10,2.5))
