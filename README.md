@@ -1,5 +1,6 @@
 # DiskPics
 ![Static Badge](https://img.shields.io/badge/doi-10.5281%2Fzenodo.16762185-750851)
+[![A rectangular badge, half black half purple containing the text made at Code Astro](https://img.shields.io/badge/Made%20at-Code/Astro-blueviolet.svg)](https://semaphorep.github.io/codeastro/)
 
 A visualization tool that lets you draw your favorite accretion disk! From Black Hole's AGN to Protoplanetary Disks around Herbigs Ae/Be, T Tauris, or Brown Dwarfs based on the central object's physical parameters like mass, radius, and temperature
 
