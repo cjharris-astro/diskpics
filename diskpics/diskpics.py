@@ -37,7 +37,7 @@ class CentralObject(object):
         elif mass.value <=0:
             raise ValueError("Object Mass must be greater than 0")
         else:
-            self.mass = mass
+            self.mass = mass.cgs
 
         if not (isinstance(mdot, Quantity) and mdot.unit.is_equivalent(u.g/u.s)):
             raise ValueError(r"Accretion rate must be a Quantity (uses astropy units) of the physical type mass/time")
@@ -50,7 +50,7 @@ class CentralObject(object):
             else:
                 self.mdot = mdot * 1e-8 
         else:
-             self.mdot = mdot
+             self.mdot = mdot.to(u.Msun/u.yr)
 
         "Required only if type is T Tauri or Herbig"
 
@@ -63,9 +63,9 @@ class CentralObject(object):
             if self.type == 'bh':
                 self.radius = bh.get_SchwartzchildRadius(self.mass.cgs.value) *u.cm
             else:
-                self.radius = radius
+                self.radius = radius.cgs
         else:
-            self.radius = radius
+            self.radius = radius.cgs
 
 
         if not (isinstance(temp, Quantity) and temp.unit.is_equivalent(u.K) ):
@@ -77,7 +77,7 @@ class CentralObject(object):
                 print('Using default Teff for YSO of 4000 K')
                 self.temp = 4000.*u.K
             elif self.type != 'bh':
-                self.temp = temp
+                self.temp = temp.to(u.K)
 
 
         """ Optional """    
@@ -88,8 +88,8 @@ class CentralObject(object):
 
         """ All inputs are validated. Now calculate the secundary variables needed for the type of object"""
         if self.type != 'bh':
-                self.Lacc = yso.get_Lacc(self.mass.to(u.Msun),self.radius.to(u.Rsun),self.mdot.to(u.Msun/u.yr))
-                self.Lstar = yso.get_Lstar(self.radius.to(u.Rsun),self.temp.to(u.K))
+                self.Lacc = yso.get_Lacc(self.mass,self.radius,self.mdot.cgs)
+                self.Lstar = yso.get_Lstar(self.radius,self.temp)
 
 
 
@@ -102,7 +102,7 @@ class Disk(CentralObject):
         if self.type == 'bh':
             self.Rin =  bh.get_InnermostCircularStableOrbit(self.mass.cgs.value) *u.cm
         else:
-            self.Rin = yso.get_Rsub(self.Lstar.to(u.Lsun))
+            self.Rin = yso.get_Rsub(self.Lstar.cgs,self.Lacc.cgs)
 
 
     def get_disk_temperature(self,R):
@@ -112,9 +112,9 @@ class Disk(CentralObject):
             R (array): array of radii
         """
         if self.type == 'bh':
-            self.tdisk = bh.get_DiskTemp(R, self.mass.cgs.value, self.mdot.value) *u.K
+            self.tdisk = bh.get_DiskTemp(R.value, self.mass.cgs.value, self.mdot.value) *u.K
         else:
-            self.tdisk = yso.flared_temp_distribution(self.Lstar.to(u.Lsun),self.mass.to(u.Msun),R)
+            self.tdisk = yso.flared_temp_distribution(self.Lstar.cgs,self.mass.cgs,R.cgs)
 
 
     def get_disk_shape(self,R):
@@ -124,9 +124,9 @@ class Disk(CentralObject):
             R (array): Array of Radii
         """
         if self.type == 'bh':
-            self.scale_height =  bh.get_ScaleHeight(R, self.mass.cgs.value, mdot = self.mdot.value) *u.cm
+            self.scale_height =  bh.get_ScaleHeight(R.value, self.mass.cgs.value, mdot = self.mdot.value) *u.cm
         else:
-            self.scale_height = yso.flared_disk_ScaleHeight(self.mass.to(u.Msun),R,self.tdisk)
+            self.scale_height = yso.flared_disk_ScaleHeight(self.mass.cgs,R.cgs,self.tdisk.cgs)
         
     
 
@@ -158,15 +158,15 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
 
     R = np.linspace(disco.Rin.cgs,rout.cgs)
 
-    disco.get_disk_temperature(R.value)
-    disco.get_disk_shape(R.value)
+    disco.get_disk_temperature(R.cgs)
+    disco.get_disk_shape(R.cgs)
    
 
     yaxis = disco.scale_height/disco.radius
     xaxis = R/disco.radius
     plt.plot(xaxis, yaxis, c= 'k')
 
-    disco.get_disk_temperature(R.value)
+    disco.get_disk_temperature(R)
 
     cmap =  mpl.cm.get_cmap(cmap)
 
