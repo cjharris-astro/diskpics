@@ -130,7 +130,7 @@ class Disk(CentralObject):
         
     
 
-def plot_disk(disco,rout=1.*u.Rsun, cmap='RdYlBu_r'):
+def plot_disk(disco,rout=1.*u.Rsun, cmap='RdYlBu_r',bkg = 'none'):
     """Plot Disks
 
     Args:
@@ -199,7 +199,7 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='RdYlBu_r'):
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
 
-    plt.gca().set_facecolor('none')
+    plt.gca().set_facecolor(bkg)
 
     plt.gca().spines['top'].set_visible(False)
     plt.gca().spines['right'].set_visible(False)
