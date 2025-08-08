@@ -26,7 +26,6 @@ def inner_radius(Lsun,T_sub):
 inner_radius(1,1500)
 
 def flared_temp_distribution(Lsun,Rsun,Msun,Rarray):
-    Rarray = Rarray
     Ls = const.L_sun.cgs *Lsun
     Rs = const.R_sun.cgs*Rsun
     sigma_sb = const.sigma_sb.cgs
@@ -42,7 +41,7 @@ def flared_temp_distribution(Lsun,Rsun,Msun,Rarray):
     three = Rarray/(G*Ms)
 
     Td = (one*two*three)**(1/7)
-    
+
     cs = np.sqrt((K_b*Td)/(mu*mh))
     v_k = np.sqrt(G*Ms/Rarray)
     H = cs/v_k*Rarray

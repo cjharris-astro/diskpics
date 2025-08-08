@@ -11,9 +11,9 @@ def get_Lstar(radius,temp):
 def get_Lacc(mass,radius,mdot):
     return con.G.cgs * mass.cgs * (mdot.cgs/(radius.cgs))
 
-def get_Rsub(Lstar, Tsub = 1500*u.K):
+def get_Rsub(Lstar,Lacc, Tsub = 1400*u.K):
         # return np.sqrt( (Lstar.cgs+Lacc.cgs)/ (4*np.pi *Tsub) )
-        return 1/(4*np.pi) * np.sqrt( (Lstar.cgs)/ (sig_sb*Tsub**4) )
+        return 1/(4*np.pi) * np.sqrt( (Lstar.cgs+Lacc.cgs)/ (sig_sb*Tsub**4) )
 
 def magnetosphere():
     return print("Module under construction")
@@ -23,8 +23,8 @@ def flared_temp_distribution(Lstar,Mstar,Rarray,mu = 2.3):
     one = (Lstar.cgs/(4*np.pi*(Rarray.cgs)**2*sig_sb))**2
     two = con.k_B.cgs/(mu*con.u.cgs)
     three = Rarray.cgs/(con.G.cgs*Mstar.cgs)
-
-    return (one*two*three)**(1/7)
+    Td = (one*two*three)**(1/7)
+    return Td.value * u.K
     # return Lstar.cgs**(2/7)*(Rarray.cgs)**(-3/7)
 
 def flared_disk_ScaleHeight(Mstar,Rarray,Tdisk, mu = 2.3):
