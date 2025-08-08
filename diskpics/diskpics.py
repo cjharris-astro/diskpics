@@ -130,13 +130,13 @@ class Disk(CentralObject):
         
     
 
-def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
+def plot_disk(disco,rout=1.*u.Rsun, cmap='RdYlBu_r'):
     """Plot Disks
 
     Args:
         disco (float): Inner disk radius
         rout (float, optional): Outer disk radius. Defaults to 1.*u.Rsun.
-        cmap (str, optional): Color map. Defaults to 'Spectral_r'.
+        cmap (str, optional): Color map. Defaults to 'RdYlBu_r'.
 
     Raises:
         ValueError: object Rdisk must be a Quantity
