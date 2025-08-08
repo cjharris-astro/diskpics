@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import diskpics.diskpics.yso_utils as yso
-import diskpics.diskpics.bh_utils as bh
+import diskpics.yso_utils as yso
+import diskpics.bh_utils as bh
 from astropy import units as u
 from astropy.units import Quantity
 import matplotlib as mpl

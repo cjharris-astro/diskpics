@@ -1,5 +1,5 @@
 import numpy as np
-import diskpics.diskpics.constants as c
+import diskpics.constants as c
 
 # def get_ScaleHeight(rads, mbh, mdot, alpha=0.1):
 #     """
