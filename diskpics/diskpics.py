@@ -188,6 +188,8 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='RdYlBu_r'):
         plt.fill_between(xaxis[i:i+2], yaxis[i:i+2], color=color)
  
 
+    plt.vlines(xaxis[0],ymax = yaxis[0],ymin=0,color='k')
+
     plt.xlabel(r'$\rm R/R_{obj}$',fontsize=16)
     plt.ylabel(r'$\rm H/R_{obj}$',fontsize=16)
 
