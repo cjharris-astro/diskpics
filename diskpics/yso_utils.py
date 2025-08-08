@@ -19,7 +19,10 @@ def magnetosphere():
     return print("Module under construction")
 
 def flared_temp_distribution(Lstar,Mstar,Rarray,mu = 2.3):
-   
+    """
+    Units don't work out in this equation!!!
+    """
+
     one = (Lstar.cgs/(4*np.pi*(Rarray.cgs)**2*sig_sb))**2
     two = con.k_B.cgs/(mu*con.u.cgs)
     three = Rarray.cgs/(con.G.cgs*Mstar.cgs)

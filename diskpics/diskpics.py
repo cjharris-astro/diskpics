@@ -169,6 +169,7 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
     disco.get_disk_temperature(R)
 
     cmap =  mpl.cm.get_cmap(cmap)
+    cmap_ysos = mpl.cm.get_cmap('Oranges_r')
 
     circle_r = 1
     if disco.type == 'bh':
@@ -176,7 +177,8 @@ def plot_disk(disco,rout=1.*u.Rsun, cmap='Spectral_r'):
         circle = plt.Circle((0, 0), circle_r, color='k')
     else:
         normalize =  mpl.colors.LogNorm(vmin=min(disco.tdisk.value), vmax=max(disco.tdisk.value))
-        circle = plt.Circle((0, 0), circle_r, color='orange') #cmap(normalize(disco.temp.value))
+        norm_stars =  mpl.colors.LogNorm(vmin=300, vmax=40000)
+        circle = plt.Circle((0, 0), circle_r, color=cmap_ysos(norm_stars(disco.temp.value))) #cmap(normalize(disco.temp.value))
 
     plt.gca().add_patch(circle)
     
