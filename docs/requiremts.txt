@@ -1,4 +1,0 @@
-numpy
-matplotlib
-astropy
-sphinx_rtd_theme
